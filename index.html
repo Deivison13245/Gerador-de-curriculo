@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currículo Express</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/png" href="assets/Favicon-removebg-preview.png"></head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0d6efd">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+<body>
+    <div class="container">
+        <header>
+            <h1>Gerador de Currículo Profissional</h1>
+            <p>Preencha os campos abaixo para gerar seu currículo no formato profissional</p>
+        </header>
+       
+        <main>
+            <div class="form-container">
+                <form id="resumeForm">
+                    <h2>Informações Pessoais</h2>
+                    <div class="form-group">
+                        <label for="name">Nome Completo</label>
+                        <input type="text" id="name" required>
+                    </div>
+                   
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="birthplace">Natural de</label>
+                            <input type="text" id="birthplace">
+                        </div>
+                       
+                        <div class="form-group">
+                            <label for="maritalStatus">Estado Civil</label>
+                            <select id="maritalStatus">
+                                <option value="">Selecione</option>
+                                <option value="Solteiro(a)">Solteiro(a)</option>
+                                <option value="Casado(a)">Casado(a)</option>
+                                <option value="Divorciado(a)">Divorciado(a)</option>
+                                <option value="Viúvo(a)">Viúvo(a)</option>
+                                <option value="União Estável">União Estável</option>
+                            </select>
+                        </div>
+                       
+                        <div class="form-group">
+                            <label for="age">Idade</label>
+                            <input type="number" id="age" min="14" max="100">
+                        </div>
+                    </div>
+                   
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="neighborhood">Bairro</label>
+                            <input type="text" id="neighborhood">
+                        </div>
+                       
+                        <div class="form-group">
+                            <label for="city">Cidade</label>
+                            <input type="text" id="city" required>
+                        </div>
+                       
+                        <div class="form-group">
+                            <label for="state">Estado</label>
+                            <input type="text" id="state" required>
+                        </div>
+                    </div>
+                   
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone1">Telefone Principal</label>
+                            <input type="tel" id="phone1" placeholder="(DDD) 00000-0000" required>
+                        </div>
+                       
+                        <div class="form-group">
+                            <label for="phone2">Telefone Alternativo</label>
+                            <input type="tel" id="phone2" placeholder="(DDD) 00000-0000">
+                        </div>
+                    </div>
+                   
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                       
+                        <div class="form-group">
+                            <label for="license">Categoria CNH (se possuir)</label>
+                            <input type="text" id="license" placeholder="Ex: A, B, AB, etc.">
+                        </div>
+                    </div>
+                   
+                    <h2>Objetivo Profissional</h2>
+                    <div class="form-group">
+                        <label for="objective">Área ou função de interesse</label>
+                        <input type="text" id="objective" required>
+                    </div>
+                   
+                    <h2>Síntese de Qualificações</h2>
+                    <div class="form-group">
+                        <p class="helper-text">Resumo de aproximadamente cinco linhas, reunindo formação, experiências, hard skills e soft skills.</p>
+                        <div class="synthesis-helper">
+                            <button type="button" id="generateSynthesis">Ajuda para criar síntese</button>
+                        </div>
+                        <textarea id="qualificationSummary" rows="5" required></textarea>
+                    </div>
+                   
+                    <h2>Educação</h2>
+                    <div id="education-container">
+                        <div class="education-item">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Nível de escolaridade</label>
+                                    <select class="education-level" required>
+                                        <option value="">Selecione</option>
+                                        <option value="Ensino Fundamental">Ensino Fundamental</option>
+                                        <option value="Ensino Médio">Ensino Médio</option>
+                                        <option value="Ensino Técnico">Ensino Técnico</option>
+                                        <option value="Graduação">Graduação</option>
+                                        <option value="Pós-graduação">Pós-graduação</option>
+                                        <option value="Mestrado">Mestrado</option>
+                                        <option value="Doutorado">Doutorado</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Curso/Área</label>
+                                    <input type="text" class="education-course">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Instituição</label>
+                                    <input type="text" class="institution" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select class="education-status" required>
+                                        <option value="">Selecione</option>
+                                        <option value="Concluído">Concluído</option>
+                                        <option value="Cursando">Cursando</option>
+                                        <option value="Interrompido">Interrompido</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Ano de conclusão/previsão</label>
+                                    <input type="number" class="education-year" min="1950" max="2050" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Turno</label>
+                                    <select class="education-shift">
+                                        <option value="">Selecione</option>
+                                        <option value="Matutino">Matutino</option>
+                                        <option value="Vespertino">Vespertino</option>
+                                        <option value="Noturno">Noturno</option>
+                                        <option value="Integral">Integral</option>
+                                        <option value="EAD">EAD</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="button" class="remove-btn">Remover</button>
+                        </div>
+                    </div>
+                    <button type="button" id="addEducation">+ Adicionar Formação</button>
+                   
+                    <h2>Experiências Profissionais/Acadêmicas</h2>
+                    <div id="experience-container">
+                        <div class="experience-item">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Cargo</label>
+                                    <input type="text" class="position" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Empresa</label>
+                                    <input type="text" class="company" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Período</label>
+                                <input type="text" class="job-period" placeholder="ex: Jan 2020 - Atual" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Descrição das atividades (mínimo duas linhas)</label>
+                                <textarea class="job-description" rows="3" required></textarea>
+                            </div>
+                            <button type="button" class="remove-btn">Remover</button>
+                        </div>
+                    </div>
+                    <button type="button" id="addExperience">+ Adicionar Experiência</button>
+                   
+                    <h2>Cursos Complementares</h2>
+                    <div id="courses-container">
+                        <div class="course-item">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Curso</label>
+                                    <input type="text" class="course-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Instituição</label>
+                                    <input type="text" class="course-institution" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Carga horária</label>
+                                    <input type="text" class="course-hours" placeholder="Ex: 40h">
+                                </div>
+                                <div class="form-group">
+                                    <label>Ano</label>
+                                    <input type="number" class="course-year" min="1950" max="2050">
+                                </div>
+                            </div>
+                            <button type="button" class="remove-btn">Remover</button>
+                        </div>
+                    </div>
+                    <button type="button" id="addCourse">+ Adicionar Curso</button>
+                   
+                    <h2>Hard Skills e Soft Skills</h2>
+                    <div class="skills-section">
+                        <div class="skills-column">
+                            <h3>Hard Skills (habilidades técnicas)</h3>
+                            <div class="skills-selection">
+                                <div><input type="checkbox" class="hard-skill" value="Programação"> Programação</div>
+                                <div><input type="checkbox" class="hard-skill" value="Análise de dados"> Análise de dados</div>
+                                <div><input type="checkbox" class="hard-skill" value="Pacote Office"> Pacote Office</div>
+                                <div><input type="checkbox" class="hard-skill" value="Controle de planilhas e dados"> Controle de planilhas e dados</div>
+                                <div><input type="checkbox" class="hard-skill" value="Operação de sistemas de gestão (ERP)"> Operação de sistemas de gestão (ERP)</div>
+                                <div><input type="checkbox" class="hard-skill" value="Ferramentas de videoconferência"> Ferramentas de videoconferência</div>
+                                <div><input type="checkbox" class="hard-skill" value="Google Docs / Drive"> Google Docs / Drive</div>
+                                <div><input type="checkbox" class="hard-skill" value="Rotinas administrativas"> Rotinas administrativas</div>
+                                <div><input type="checkbox" class="hard-skill" value="Noções de fluxo de caixa"> Noções de fluxo de caixa</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Outras Hard Skills</label>
+                                <input type="text" id="otherHardSkills" placeholder="Separe por vírgula">
+                            </div>
+                        </div>
+                       
+                        <div class="skills-column">
+                            <h3>Soft Skills (habilidades comportamentais)</h3>
+                            <div class="skills-selection">
+                                <div><input type="checkbox" class="soft-skill" value="Trabalho em equipe"> Trabalho em equipe</div>
+                                <div><input type="checkbox" class="soft-skill" value="Adaptabilidade"> Adaptabilidade</div>
+                                <div><input type="checkbox" class="soft-skill" value="Comunicação clara"> Comunicação clara</div>
+                                <div><input type="checkbox" class="soft-skill" value="Escuta ativa"> Escuta ativa</div>
+                                <div><input type="checkbox" class="soft-skill" value="Criatividade"> Criatividade</div>
+                                <div><input type="checkbox" class="soft-skill" value="Inovação"> Inovação</div>
+                                <div><input type="checkbox" class="soft-skill" value="Visão de melhoria contínua"> Visão de melhoria contínua</div>
+                                <div><input type="checkbox" class="soft-skill" value="Organização"> Organização</div>
+                                <div><input type="checkbox" class="soft-skill" value="Comprometimento"> Comprometimento</div>
+                            </div>
+                            <div class="form-group">
+                                <label>Outras Soft Skills</label>
+                                <input type="text" id="otherSoftSkills" placeholder="Separe por vírgula">
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <h2>Informações Complementares</h2>
+                    <div class="form-group">
+                        <label for="additionalInfo">Idiomas, disponibilidade, etc.</label>
+                        <textarea id="additionalInfo" rows="3"></textarea>
+                    </div>
+                   
+                    <div class="buttons">
+                        <button type="submit" id="generateBtn">Gerar Currículo</button>
+                        <button type="button" id="saveBtn">Salvar Dados</button>
+                        <button type="button" id="exportWordBtn">Exportar para Word</button>
+                        <button type="reset" id="clearBtn">Limpar</button>
+                    </div>
+                </form>
+            </div>
+           
+            <div class="preview-container" id="resumePreview">
+                <!-- O currículo gerado será exibido aqui -->
+            </div>
+        </main>
+       
+        <!-- Modal para ajudar a criar a síntese -->
+        <div id="synthesisModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Assistente de Síntese de Qualificações</h2>
+                <p>Escolha um dos modelos abaixo ou crie sua síntese personalizada:</p>
+               
+                <div class="synthesis-examples">
+                    <div class="synthesis-example">
+                        <h3>Exemplo 1 - Com experiência profissional</h3>
+                        <p>Estudante do curso Técnico em Recursos Humanos pelo Senac, com experiência em atividades administrativas e atendimento ao público. Possui domínio básico de informática e se destaca pela comunicação, organização e facilidade em aprender novas tarefas. Demonstra responsabilidade e bom relacionamento interpessoal.</p>
+                        <button type="button" class="use-example" data-example="1">Usar este modelo</button>
+                    </div>
+                   
+                    <div class="synthesis-example">
+                        <h3>Exemplo 2 - Sem experiência formal</h3>
+                        <p>Estudante do curso Técnico em Administração, com conhecimentos básicos em informática e rotinas administrativas. É comunicativo, proativo e comprometido, demonstrando interesse em desenvolver novas habilidades e contribuir para o crescimento da equipe e da organização.</p>
+                        <button type="button" class="use-example" data-example="2">Usar este modelo</button>
+                    </div>
+                </div>
+               
+                <div class="custom-synthesis">
+                    <h3>Criar síntese personalizada</h3>
+                    <p>Selecione de 3 a 5 habilidades técnicas e comportamentais que mais o representam:</p>
+                   
+                    <div class="modal-skills-section">
+                        <div class="modal-skills-column">
+                            <h4>Hard Skills</h4>
+                            <div class="skills-selection">
+                                <div><input type="checkbox" class="modal-hard-skill" value="Programação"> Programação</div>
+                                <div><input type="checkbox" class="modal-hard-skill" value="Análise de dados"> Análise de dados</div>
+                                <div><input type="checkbox" class="modal-hard-skill" value="Pacote Office"> Pacote Office</div>
+                                <div><input type="checkbox" class="modal-hard-skill" value="Controle de planilhas e dados"> Controle de planilhas e dados</div>
+                                <div><input type="checkbox" class="modal-hard-skill" value="Operação de sistemas de gestão (ERP)"> Operação de sistemas de gestão (ERP)</div>
+                                <div><input type="checkbox" class="modal-hard-skill" value="Ferramentas de videoconferência"> Ferramentas de videoconferência</div>
+                                <div><input type="checkbox" class="modal-hard-skill" value="Google Docs / Drive"> Google Docs / Drive</div>
+                                <div><input type="checkbox" class="modal-hard-skill" value="Rotinas administrativas"> Rotinas administrativas</div>
+                                <div><input type="checkbox" class="modal-hard-skill" value="Noções de fluxo de caixa"> Noções de fluxo de caixa</div>
+                            </div>
+                        </div>
+                       
+                        <div class="modal-skills-column">
+                            <h4>Soft Skills</h4>
+                            <div class="skills-selection">
+                                <div><input type="checkbox" class="modal-soft-skill" value="Trabalho em equipe"> Trabalho em equipe</div>
+                                <div><input type="checkbox" class="modal-soft-skill" value="Adaptabilidade"> Adaptabilidade</div>
+                                <div><input type="checkbox" class="modal-soft-skill" value="Comunicação clara"> Comunicação clara</div>
+                                <div><input type="checkbox" class="modal-soft-skill" value="Escuta ativa"> Escuta ativa</div>
+                                <div><input type="checkbox" class="modal-soft-skill" value="Criatividade"> Criatividade</div>
+                                <div><input type="checkbox" class="modal-soft-skill" value="Inovação"> Inovação</div>
+                                <div><input type="checkbox" class="modal-soft-skill" value="Visão de melhoria contínua"> Visão de melhoria contínua</div>
+                                <div><input type="checkbox" class="modal-soft-skill" value="Organização"> Organização</div>
+                                <div><input type="checkbox" class="modal-soft-skill" value="Comprometimento"> Comprometimento</div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <button type="button" id="generateCustomSynthesis">Gerar Síntese Personalizada</button>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <!-- Bibliotecas externas -->
+    <script src="https://unpkg.com/docx@7.1.0/build/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+   
+    <!-- Scripts da aplicação -->
+    <script src="js/data-storage.js"></script>
+    <script src="js/form-handlers.js"></script>
+    <script src="js/resume-generator.js"></script>
+    <script src="js/export-utils.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/realtime-preview.js"></script>
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("service-worker.js")
+            .then(() => console.log("✅ Service Worker registrado!"))
+            .catch(err => console.warn("Erro no SW:", err));
+    }
+    </script>
+
+</body>
+</html>

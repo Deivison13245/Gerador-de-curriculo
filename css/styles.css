@@ -1,0 +1,241 @@
+/* ========================================= */
+/*   PALETA DE CORES - CURRÍCULO EXPRESS     */
+/* ========================================= */
+:root {
+    --cor-laranja: #F79633;
+    --cor-azul: #165491;
+    --cor-pessego: #FCC284;
+    --cor-verde: #00BD6B;
+    --cor-vermelho: #D82F00;
+
+    --texto-escuro: #1f1f1f;
+    --texto-medio: #444;
+    --fundo-claro: #fafafa;
+    --bordas: #e0e0e0;
+}
+
+/* Reset e fontes */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--fundo-claro);
+    color: var(--texto-escuro);
+    line-height: 1.6;
+}
+
+/* ========================================= */
+/*   LAYOUT                                   */
+/* ========================================= */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    border-bottom: 4px solid var(--cor-laranja);
+}
+
+header h1 {
+    color: var(--cor-azul);
+    margin-bottom: 10px;
+}
+
+/* Main layout */
+main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.form-container,
+.preview-container {
+    flex: 1;
+    min-width: 320px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 5px solid var(--cor-azul);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.09);
+}
+
+/* ========================================= */
+/*   TITLES                                   */
+/* ========================================= */
+
+h2 {
+    color: var(--cor-azul);
+    margin: 20px 0 10px;
+    font-size: 1.2rem;
+    border-bottom: 2px solid var(--cor-pessego);
+    padding-bottom: 5px;
+}
+
+h3 {
+    color: var(--cor-laranja);
+    margin: 15px 0 10px;
+    font-size: 1.1rem;
+}
+
+/* ========================================= */
+/*   FORM INPUTS                               */
+/* ========================================= */
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid var(--bordas);
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: var(--cor-azul);
+    outline: none;
+}
+
+/* ========================================= */
+/*   BUTTONS                                   */
+/* ========================================= */
+
+button {
+    background-color: var(--cor-laranja);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-right: 10px;
+    transition: 0.2s;
+}
+
+/* Hover geral */
+button:hover {
+    background-color: #d67e2a;
+}
+
+/* Botão reset (vermelho) */
+button[type="reset"],
+.remove-btn {
+    background-color: var(--cor-vermelho);
+}
+
+button[type="reset"]:hover,
+.remove-btn:hover {
+    background-color: #b12700;
+}
+
+/* Botão Salvar (Verde) */
+#saveBtn {
+    background-color: var(--cor-verde);
+}
+#saveBtn:hover {
+    background-color: #009f59;
+}
+
+/* Botão Exportar Word (Azul forte) */
+#exportWordBtn {
+    background-color: var(--cor-azul);
+}
+#exportWordBtn:hover {
+    filter: brightness(0.9);
+}
+
+/* Botão de exemplo no modal (Verde) */
+.use-example {
+    background-color: var(--cor-verde);
+}
+.use-example:hover {
+    background-color: #009f59;
+}
+
+/* ========================================= */
+/*   CARDS (Educação, Experiência, etc.)       */
+/* ========================================= */
+
+.education-item,
+.experience-item,
+.course-item {
+    border: 1px solid var(--bordas);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    background-color: var(--cor-pessego);
+    opacity: 0.95;
+}
+
+/* ========================================= */
+/*   MODAL                                     */
+/* ========================================= */
+
+.modal-content {
+    background-color: white;
+    border-left: 5px solid var(--cor-azul);
+}
+
+.synthesis-example {
+    background-color: var(--cor-pessego);
+    border-left: 5px solid var(--cor-laranja);
+}
+
+.custom-synthesis {
+    border-top: 2px solid var(--cor-laranja);
+}
+
+/* ========================================= */
+/*   CURRÍCULO GERADO                          */
+/* ========================================= */
+
+.resume-header h1 {
+    color: var(--cor-azul);
+}
+
+.resume-section h2 {
+    color: var(--cor-laranja);
+    border-bottom: 2px solid var(--cor-azul);
+}
+
+.skill-tag {
+    background-color: var(--cor-pessego);
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+/* ========================================= */
+/*   IMPRESSÃO                                 */
+/* ========================================= */
+
+@media print {
+    header, .form-container, button, #printBtn, .only-screen {
+        display: none !important;
+    }
+
+    .preview-container {
+        border: none;
+        box-shadow: none;
+    }
+}
+
+/* ========================================= */
+/*   RESPONSIVIDADE                            */
+/* ========================================= */
+
+@media (max-width: 768px) {
+    main { flex-direction: column; }
+    button { width: 100%; margin-right: 0; }
+}
