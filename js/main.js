@@ -2,64 +2,77 @@
  * Arquivo principal que inicializa a aplicação
  */
 document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar manipuladores de formulário
+    FormHandlers.initializeFormHandlers();
     
-    // 1. Inicializar manipuladores de formulário e carregar dados
-    if (typeof FormHandlers !== 'undefined' && FormHandlers.initializeFormHandlers) {
-        FormHandlers.initializeFormHandlers();
-    }
-    
+    // Carregar dados salvos
     DataStorage.loadFormData();
     
-    // 2. NOVO PASSO: Configurar o preview em tempo real
-    if (typeof RealtimePreviewSetup !== 'undefined' && RealtimePreviewSetup.initialize) {
-        RealtimePreviewSetup.initialize();
-    }
+    // Inicializar auto-save contínuo
+    DataStorage.initializeAutoSave();
     
-    // 3. Adicionar eventos para botões de ação
-    const saveBtn = document.getElementById('saveBtn');
-    if (saveBtn) {
-        saveBtn.addEventListener('click', DataStorage.saveFormData);
-    }
+    // Adicionar eventos para botões de ação
+    document.getElementById('saveBtn').addEventListener('click', DataStorage.saveFormData);
+    document.getElementById('exportWordBtn').addEventListener('click', ExportUtils.exportToWord);
     
-    const exportWordBtn = document.getElementById('exportWordBtn');
-    if (exportWordBtn && typeof ExportUtils !== 'undefined' && ExportUtils.exportToWord) {
-        // Mantenha o type="button" no HTML para não submeter
-        exportWordBtn.addEventListener('click', ExportUtils.exportToWord); 
-    }
-
-    // 4. Se você seguiu o passo anterior, o generateBtn é type="button" 
-    // e não precisa de um listener extra, pois o RealtimePreviewSetup.initialize 
-    // já lida com as mudanças.
+    // Inicializar a visualização em tempo real
+    RealtimePreview.initialize();
     
-    // (Lógica de notificação mantida)
+    // Verificar se há dados salvos e mostrar notificação
     if (localStorage.getItem('resumeData')) {
-        const notification = document.createElement('div');
-        notification.className = 'notification';
-        notification.textContent = 'Dados carregados do armazenamento local';
-        // ... Estilos e timeout
-        notification.style.position = 'fixed';
-        notification.style.bottom = '20px';
-        notification.style.right = '20px';
-        notification.style.backgroundColor = '#3498db';
-        notification.style.color = 'white';
-        notification.style.padding = '10px 20px';
-        notification.style.borderRadius = '4px';
-        notification.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
-        notification.style.zIndex = '1000';
-        notification.style.transition = 'opacity 0.5s';
-        
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.style.opacity = '0';
-            setTimeout(() => {
-                document.body.removeChild(notification);
-            }, 500);
-        }, 3000);
+        showNotification('Dados carregados com sucesso!', 'info');
     }
-    // RealtimePreview
-if (typeof RealtimePreviewSetup !== 'undefined' && RealtimePreviewSetup.initialize) {
-    RealtimePreviewSetup.initialize();
+});
+
+/**
+ * Exibe uma notificação temporária
+ * @param {string} message - Mensagem a ser exibida
+ * @param {string} type - Tipo de notificação (success, error, info)
+ */
+function showNotification(message, type = 'success') {
+    // Criar elemento de notificação
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+    notification.style.position = 'fixed';
+    notification.style.bottom = '20px';
+    notification.style.right = '20px';
+    notification.style.padding = '10px 20px';
+    notification.style.borderRadius = '4px';
+    notification.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+    notification.style.zIndex = '1000';
+    notification.style.transition = 'opacity 0.5s';
+    
+    // Definir cor com base no tipo
+    switch (type) {
+        case 'success':
+            notification.style.backgroundColor = '#2ecc71';
+            notification.style.color = 'white';
+            break;
+        case 'error':
+            notification.style.backgroundColor = '#e74c3c';
+            notification.style.color = 'white';
+            break;
+        case 'info':
+            notification.style.backgroundColor = '#3498db';
+            notification.style.color = 'white';
+            break;
+        default:
+            notification.style.backgroundColor = '#2ecc71';
+            notification.style.color = 'white';
+    }
+    
+    // Adicionar ao corpo do documento
+    document.body.appendChild(notification);
+    
+    // Remover após 3 segundos
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 500);
+    }, 3000);
 }
 
-});
+// Tornar a função showNotification global
+window.showNotification = showNotification;

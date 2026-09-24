@@ -3,363 +3,1082 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Currículo Express</title>
+    <title>Currículo Express - Gerador Inteligente & Otimizador ATS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="icon" type="image/png" href="assets/Favicon-removebg-preview.png"></head>
+    <meta name="theme-color" content="#155491">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Currículo Express">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0d6efd">
-    <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+    <link rel="shortcut icon" href="assets/icon/icon.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="assets/icon/icon_192.png">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(reg => console.log('[PWA] Service Worker registrado com sucesso:', reg.scope))
+                    .catch(err => console.warn('[PWA] Falha ao registrar Service Worker:', err));
+            });
+        }
+    </script>
+</head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Gerador de Currículo Profissional</h1>
-            <p>Preencha os campos abaixo para gerar seu currículo no formato profissional</p>
+    <div class="app-layout">
+        <!-- Cabeçalho Principal Estilo SaaS / Figma -->
+        <header class="app-header">
+            <div class="header-inner">
+                <div class="brand-badge-group">
+                    <div class="brand-logo-icon">✨</div>
+                    <div class="brand-text">
+                        <h1 class="brand-title">Currículo Express</h1>
+                        <span class="brand-tagline">Gerador Inteligente & Otimizador ATS</span>
+                    </div>
+                </div>
+
+                <div class="header-action-pills">
+                    <button type="button" id="openAiImportBtn" class="pill-btn pill-btn-default" title="Importar arquivo PDF, Word ou texto do LinkedIn">
+                        <span class="pill-emoji">📥</span>
+                        <span class="pill-label">Importar</span>
+                    </button>
+                    <button type="button" id="openAiAtsBtn" class="pill-btn pill-btn-ats" title="Avaliar compatibilidade do currículo com vagas de emprego (ATS)">
+                        <span class="pill-emoji">🌡️</span>
+                        <span class="pill-label">Termômetro ATS</span>
+                    </button>
+                    <button type="button" id="openAiTranslateBtn" class="pill-btn pill-btn-default" title="Traduzir currículo para Inglês ou Espanhol com IA">
+                        <span class="pill-emoji">🌐</span>
+                        <span class="pill-label">Traduzir</span>
+                    </button>
+                    <button type="button" id="openAiCoverLetterBtn" class="pill-btn pill-btn-cover" title="Gerar Carta de Apresentação personalizada com IA">
+                        <span class="pill-emoji">✉️</span>
+                        <span class="pill-label">Carta de Apresentação</span>
+                    </button>
+                    <button type="button" id="openAiSettingsBtn" class="pill-btn pill-btn-ai-status" title="Configurar chave de IA do Google Gemini">
+                        <span class="ai-status-indicator-dot"></span>
+                        <span id="aiStatusText">Gemini IA</span>
+                    </button>
+                </div>
+            </div>
         </header>
-       
-        <main>
-            <div class="form-container">
-                <form id="resumeForm">
-                    <h2>Informações Pessoais</h2>
-                    <div class="form-group">
-                        <label for="name">Nome Completo</label>
-                        <input type="text" id="name" required>
-                    </div>
-                   
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="birthplace">Natural de</label>
-                            <input type="text" id="birthplace">
+        
+        <!-- Grid Principal de 2 Colunas (Formulário à Esquerda | Enquadramento A4 à Direita) -->
+        <main class="app-workspace">
+
+            <!-- Banner Dinâmico de Alertas Estratégicos & Saúde do Currículo -->
+            <div id="aiResumeHealthBanner" class="ai-health-banner">
+                <div class="health-banner-header">
+                    <div class="health-score-info">
+                        <div class="health-badge" id="healthScoreBadge">
+                            <span id="healthScoreValue">--%</span>
                         </div>
-                       
-                        <div class="form-group">
-                            <label for="maritalStatus">Estado Civil</label>
-                            <select id="maritalStatus">
-                                <option value="">Selecione</option>
-                                <option value="Solteiro(a)">Solteiro(a)</option>
-                                <option value="Casado(a)">Casado(a)</option>
-                                <option value="Divorciado(a)">Divorciado(a)</option>
-                                <option value="Viúvo(a)">Viúvo(a)</option>
-                                <option value="União Estável">União Estável</option>
-                            </select>
-                        </div>
-                       
-                        <div class="form-group">
-                            <label for="age">Idade</label>
-                            <input type="number" id="age" min="14" max="100">
+                        <div class="health-meta">
+                            <strong id="healthScoreTitle">Diagnóstico do Currículo</strong>
+                            <p id="healthScoreSubtitle">Preencha seus dados para auditar conformidade com padrões de mercado e robôs ATS.</p>
                         </div>
                     </div>
-                   
-                    <div class="form-row">
+                    <button type="button" id="btnToggleHealthAlerts" class="btn-health-toggle">
+                        <span id="healthAlertCountBadge" class="alert-count-pill">0 Alertas</span>
+                        <span class="toggle-arrow">▼</span>
+                    </button>
+                </div>
+                <div id="healthAlertsList" class="health-alerts-content" style="display: none;">
+                    <!-- Lista de alertas contextuais gerada dinamicamente -->
+                </div>
+            </div>
+
+            <!-- Navegação Simplificada para Dispositivos Móveis (Modo Tabbed) -->
+            <div class="mobile-view-tabs" id="mobileViewTabs">
+                <button type="button" class="mobile-tab-btn active" data-view="form" id="mobileTabForm">
+                    <span class="tab-icon">📝</span>
+                    <span class="tab-text">Preencher Formulário</span>
+                </button>
+                <button type="button" class="mobile-tab-btn" data-view="preview" id="mobileTabPreview">
+                    <span class="tab-icon">👁️</span>
+                    <span class="tab-text">Visualizar Currículo</span>
+                    <span class="mobile-tab-badge" id="mobileTabBadgeA4">A4</span>
+                </button>
+            </div>
+
+            <!-- Coluna 1: Formulário Estruturado em Cards -->
+            <div class="form-column">
+                <form id="resumeForm" onsubmit="return false;">
+                    <!-- Seção 1: Informações Pessoais -->
+                    <div class="form-section-card" id="section-personal">
+                        <div class="section-card-header">
+                            <div class="section-badge">1</div>
+                            <h2>Informações Pessoais</h2>
+                        </div>
+                        
                         <div class="form-group">
-                            <label for="neighborhood">Bairro</label>
-                            <input type="text" id="neighborhood">
+                            <label for="name">Nome Completo *</label>
+                            <input type="text" id="name" required placeholder="Ex: Maria Silva Santos">
                         </div>
-                       
-                        <div class="form-group">
-                            <label for="city">Cidade</label>
-                            <input type="text" id="city" required>
-                        </div>
-                       
-                        <div class="form-group">
-                            <label for="state">Estado</label>
-                            <input type="text" id="state" required>
-                        </div>
-                    </div>
-                   
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="phone1">Telefone Principal</label>
-                            <input type="tel" id="phone1" placeholder="(DDD) 00000-0000" required>
-                        </div>
-                       
-                        <div class="form-group">
-                            <label for="phone2">Telefone Alternativo</label>
-                            <input type="tel" id="phone2" placeholder="(DDD) 00000-0000">
-                        </div>
-                    </div>
-                   
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" required>
-                        </div>
-                       
-                        <div class="form-group">
-                            <label for="license">Categoria CNH (se possuir)</label>
-                            <input type="text" id="license" placeholder="Ex: A, B, AB, etc.">
-                        </div>
-                    </div>
-                   
-                    <h2>Objetivo Profissional</h2>
-                    <div class="form-group">
-                        <label for="objective">Área ou função de interesse</label>
-                        <input type="text" id="objective" required>
-                    </div>
-                   
-                    <h2>Síntese de Qualificações</h2>
-                    <div class="form-group">
-                        <p class="helper-text">Resumo de aproximadamente cinco linhas, reunindo formação, experiências, hard skills e soft skills.</p>
-                        <div class="synthesis-helper">
-                            <button type="button" id="generateSynthesis">Ajuda para criar síntese</button>
-                        </div>
-                        <textarea id="qualificationSummary" rows="5" required></textarea>
-                    </div>
-                   
-                    <h2>Educação</h2>
-                    <div id="education-container">
-                        <div class="education-item">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Nível de escolaridade</label>
-                                    <select class="education-level" required>
-                                        <option value="">Selecione</option>
-                                        <option value="Ensino Fundamental">Ensino Fundamental</option>
-                                        <option value="Ensino Médio">Ensino Médio</option>
-                                        <option value="Ensino Técnico">Ensino Técnico</option>
-                                        <option value="Graduação">Graduação</option>
-                                        <option value="Pós-graduação">Pós-graduação</option>
-                                        <option value="Mestrado">Mestrado</option>
-                                        <option value="Doutorado">Doutorado</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Curso/Área</label>
-                                    <input type="text" class="education-course">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Instituição</label>
-                                    <input type="text" class="institution" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Status</label>
-                                    <select class="education-status" required>
-                                        <option value="">Selecione</option>
-                                        <option value="Concluído">Concluído</option>
-                                        <option value="Cursando">Cursando</option>
-                                        <option value="Interrompido">Interrompido</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Ano de conclusão/previsão</label>
-                                    <input type="number" class="education-year" min="1950" max="2050" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Turno</label>
-                                    <select class="education-shift">
-                                        <option value="">Selecione</option>
-                                        <option value="Matutino">Matutino</option>
-                                        <option value="Vespertino">Vespertino</option>
-                                        <option value="Noturno">Noturno</option>
-                                        <option value="Integral">Integral</option>
-                                        <option value="EAD">EAD</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <button type="button" class="remove-btn">Remover</button>
-                        </div>
-                    </div>
-                    <button type="button" id="addEducation">+ Adicionar Formação</button>
-                   
-                    <h2>Experiências Profissionais/Acadêmicas</h2>
-                    <div id="experience-container">
-                        <div class="experience-item">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Cargo</label>
-                                    <input type="text" class="position" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Empresa</label>
-                                    <input type="text" class="company" required>
-                                </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="birthplace">Naturalidade (Cidade/Estado onde nasceu)</label>
+                                <input type="text" id="birthplace" placeholder="Ex: São Paulo, SP">
                             </div>
                             <div class="form-group">
-                                <label>Período</label>
-                                <input type="text" class="job-period" placeholder="ex: Jan 2020 - Atual" required>
+                                <label for="maritalStatus">Estado Civil</label>
+                                <select id="maritalStatus">
+                                    <option value="">Selecione</option>
+                                    <option value="Solteiro(a)">Solteiro(a)</option>
+                                    <option value="Casado(a)">Casado(a)</option>
+                                    <option value="Divorciado(a)">Divorciado(a)</option>
+                                    <option value="Viúvo(a)">Viúvo(a)</option>
+                                    <option value="União Estável">União Estável</option>
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label>Descrição das atividades (mínimo duas linhas)</label>
-                                <textarea class="job-description" rows="3" required></textarea>
+                                <label for="age">Idade</label>
+                                <input type="number" id="age" min="14" max="100" placeholder="Ex: 25">
                             </div>
-                            <button type="button" class="remove-btn">Remover</button>
                         </div>
-                    </div>
-                    <button type="button" id="addExperience">+ Adicionar Experiência</button>
-                   
-                    <h2>Cursos Complementares</h2>
-                    <div id="courses-container">
-                        <div class="course-item">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Curso</label>
-                                    <input type="text" class="course-name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Instituição</label>
-                                    <input type="text" class="course-institution" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Carga horária</label>
-                                    <input type="text" class="course-hours" placeholder="Ex: 40h">
-                                </div>
-                                <div class="form-group">
-                                    <label>Ano</label>
-                                    <input type="number" class="course-year" min="1950" max="2050">
-                                </div>
-                            </div>
-                            <button type="button" class="remove-btn">Remover</button>
-                        </div>
-                    </div>
-                    <button type="button" id="addCourse">+ Adicionar Curso</button>
-                   
-                    <h2>Hard Skills e Soft Skills</h2>
-                    <div class="skills-section">
-                        <div class="skills-column">
-                            <h3>Hard Skills (habilidades técnicas)</h3>
-                            <div class="skills-selection">
-                                <div><input type="checkbox" class="hard-skill" value="Programação"> Programação</div>
-                                <div><input type="checkbox" class="hard-skill" value="Análise de dados"> Análise de dados</div>
-                                <div><input type="checkbox" class="hard-skill" value="Pacote Office"> Pacote Office</div>
-                                <div><input type="checkbox" class="hard-skill" value="Controle de planilhas e dados"> Controle de planilhas e dados</div>
-                                <div><input type="checkbox" class="hard-skill" value="Operação de sistemas de gestão (ERP)"> Operação de sistemas de gestão (ERP)</div>
-                                <div><input type="checkbox" class="hard-skill" value="Ferramentas de videoconferência"> Ferramentas de videoconferência</div>
-                                <div><input type="checkbox" class="hard-skill" value="Google Docs / Drive"> Google Docs / Drive</div>
-                                <div><input type="checkbox" class="hard-skill" value="Rotinas administrativas"> Rotinas administrativas</div>
-                                <div><input type="checkbox" class="hard-skill" value="Noções de fluxo de caixa"> Noções de fluxo de caixa</div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="neighborhood">Bairro</label>
+                                <input type="text" id="neighborhood" placeholder="Ex: Pinheiros">
                             </div>
                             <div class="form-group">
-                                <label>Outras Hard Skills</label>
-                                <input type="text" id="otherHardSkills" placeholder="Separe por vírgula">
-                            </div>
-                        </div>
-                       
-                        <div class="skills-column">
-                            <h3>Soft Skills (habilidades comportamentais)</h3>
-                            <div class="skills-selection">
-                                <div><input type="checkbox" class="soft-skill" value="Trabalho em equipe"> Trabalho em equipe</div>
-                                <div><input type="checkbox" class="soft-skill" value="Adaptabilidade"> Adaptabilidade</div>
-                                <div><input type="checkbox" class="soft-skill" value="Comunicação clara"> Comunicação clara</div>
-                                <div><input type="checkbox" class="soft-skill" value="Escuta ativa"> Escuta ativa</div>
-                                <div><input type="checkbox" class="soft-skill" value="Criatividade"> Criatividade</div>
-                                <div><input type="checkbox" class="soft-skill" value="Inovação"> Inovação</div>
-                                <div><input type="checkbox" class="soft-skill" value="Visão de melhoria contínua"> Visão de melhoria contínua</div>
-                                <div><input type="checkbox" class="soft-skill" value="Organização"> Organização</div>
-                                <div><input type="checkbox" class="soft-skill" value="Comprometimento"> Comprometimento</div>
+                                <label for="city">Cidade</label>
+                                <input type="text" id="city" required placeholder="Ex: São Paulo">
                             </div>
                             <div class="form-group">
-                                <label>Outras Soft Skills</label>
-                                <input type="text" id="otherSoftSkills" placeholder="Separe por vírgula">
+                                <label for="state">Estado (UF)</label>
+                                <input type="text" id="state" maxlength="2" required placeholder="Ex: SP">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone1">Telefone Principal (com DDD) *</label>
+                                <input type="tel" id="phone1" required placeholder="Ex: (11) 99999-9999">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone2">Telefone Secundário (opcional)</label>
+                                <input type="tel" id="phone2" placeholder="Ex: (11) 98888-8888">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">E-mail *</label>
+                                <input type="email" id="email" required placeholder="Ex: maria.santos@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="license">CNH (opcional)</label>
+                                <select id="license">
+                                    <option value="">Não possuo</option>
+                                    <option value="A">Categoria A (Moto)</option>
+                                    <option value="B">Categoria B (Carro)</option>
+                                    <option value="AB">Categoria AB (Carro e Moto)</option>
+                                    <option value="C">Categoria C (Caminhão)</option>
+                                    <option value="D">Categoria D (Ônibus)</option>
+                                    <option value="E">Categoria E (Articulados)</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-                   
-                    <h2>Informações Complementares</h2>
-                    <div class="form-group">
-                        <label for="additionalInfo">Idiomas, disponibilidade, etc.</label>
-                        <textarea id="additionalInfo" rows="3"></textarea>
+                    
+                    <!-- Seção 2: Objetivo e Síntese de Qualificações com IA -->
+                    <div class="form-section-card" id="section-objective-synthesis">
+                        <div class="section-card-header">
+                            <div class="section-badge">2</div>
+                            <h2>Objetivo & Síntese Profissional</h2>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="objective">Área ou função de interesse (Objetivo)</label>
+                            <input type="text" id="objective" placeholder="Ex: Assistente Administrativo | Desenvolvedor Frontend">
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="label-with-ai-action">
+                                <label for="qualificationSummary">Síntese de Qualificações</label>
+                                <div class="ai-button-group">
+                                    <button type="button" id="btnOpenAiSynthesis" class="btn-ai-sparkle" title="A IA lê seus dados e gera 3 opções de síntese profissional">
+                                        ✨ Gerar Síntese com IA
+                                    </button>
+                                    <button type="button" id="generateSynthesis" class="btn-text-helper" title="Ver modelos prontos clássicos">
+                                        Ver Modelos Prontos
+                                    </button>
+                                </div>
+                            </div>
+                            <textarea id="qualificationSummary" rows="4" placeholder="Breve resumo profissional destacando sua bagagem, principais competências e resultados..."></textarea>
+                        </div>
                     </div>
-                   
-                    <div class="buttons">
-                        <button type="submit" id="generateBtn">Gerar Currículo</button>
-                        <button type="button" id="saveBtn">Salvar Dados</button>
-                        <button type="button" id="exportWordBtn">Exportar para Word</button>
-                        <button type="reset" id="clearBtn">Limpar</button>
+                    
+                    <!-- Seção 3: Educação / Formação Acadêmica -->
+                    <div class="form-section-card" id="section-education">
+                        <div class="section-card-header">
+                            <div class="section-badge">3</div>
+                            <h2>Educação / Formação Acadêmica</h2>
+                        </div>
+                        
+                        <div id="education-container">
+                            <div class="education-item">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Grau de escolaridade</label>
+                                        <select class="education-level" required>
+                                            <option value="">Selecione</option>
+                                            <option value="Ensino Fundamental">Ensino Fundamental</option>
+                                            <option value="Ensino Médio">Ensino Médio</option>
+                                            <option value="Ensino Técnico">Ensino Técnico</option>
+                                            <option value="Graduação / Superior">Graduação / Superior</option>
+                                            <option value="Pós-graduação / Especialização">Pós-graduação / Especialização</option>
+                                            <option value="Mestrado">Mestrado</option>
+                                            <option value="Doutorado">Doutorado</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Curso / Especialidade</label>
+                                        <input type="text" class="education-course" placeholder="Ex: Análise e Desenvolvimento de Sistemas">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Instituição</label>
+                                        <input type="text" class="institution" required placeholder="Ex: SENAC">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Status</label>
+                                        <select class="education-status" required>
+                                            <option value="">Selecione</option>
+                                            <option value="Concluído">Concluído</option>
+                                            <option value="Cursando">Cursando</option>
+                                            <option value="Interrompido">Interrompido</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Ano de conclusão/previsão</label>
+                                        <input type="number" class="education-year" min="1950" max="2050" required placeholder="Ex: 2025">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Turno</label>
+                                        <select class="education-shift">
+                                            <option value="">Selecione</option>
+                                            <option value="Matutino">Matutino</option>
+                                            <option value="Vespertino">Vespertino</option>
+                                            <option value="Noturno">Noturno</option>
+                                            <option value="Integral">Integral</option>
+                                            <option value="EAD">EAD</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="button" class="remove-btn">Remover</button>
+                            </div>
+                        </div>
+                        <button type="button" id="addEducation" class="btn-add-section">+ Adicionar Outra Formação</button>
+                    </div>
+
+                    <!-- Seção 4: Experiências Profissionais -->
+                    <div class="form-section-card" id="section-experience">
+                        <div class="section-card-header">
+                            <div class="section-badge">4</div>
+                            <h2>Experiências Profissionais / Acadêmicas</h2>
+                        </div>
+                        
+                        <div id="experience-container">
+                            <div class="experience-item">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Cargo</label>
+                                        <input type="text" class="position" required placeholder="Ex: Assistente de TI">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Empresa</label>
+                                        <input type="text" class="company" required placeholder="Ex: Tech Solutions Ltda">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Período</label>
+                                    <input type="text" class="job-period" placeholder="Ex: Março de 2022 até o momento ou 2021 - 2023">
+                                </div>
+                                <div class="form-group">
+                                    <div class="label-with-ai-action">
+                                        <label>Descrição das Atividades / Conquistas</label>
+                                        <button type="button" class="btn-ai-sparkle btn-improve-exp" title="Reescreve com verbos de ação e metodologia STAR">
+                                            ⚡ Melhorar texto com IA (STAR)
+                                        </button>
+                                    </div>
+                                    <textarea class="job-description" rows="3" placeholder="Descreva suas principais responsabilidades, projetos entregues e resultados obtidos..."></textarea>
+                                </div>
+                                <button type="button" class="remove-btn">Remover</button>
+                            </div>
+                        </div>
+                        <button type="button" id="addExperience" class="btn-add-section">+ Adicionar Outra Experiência</button>
+                    </div>
+
+                    <!-- Seção 5: Cursos Complementares -->
+                    <div class="form-section-card" id="section-courses">
+                        <div class="section-card-header">
+                            <div class="section-badge">5</div>
+                            <h2>Cursos Complementares & Certificações</h2>
+                        </div>
+                        
+                        <div id="course-container">
+                            <div class="course-item">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Nome do Curso / Certificação</label>
+                                        <input type="text" class="course-name" required placeholder="Ex: Excel Avançado para Negócios">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Instituição</label>
+                                        <input type="text" class="course-institution" required placeholder="Ex: Fundação Bradesco / Udemy">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Carga horária</label>
+                                        <input type="text" class="course-hours" placeholder="Ex: 40h">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Ano</label>
+                                        <input type="number" class="course-year" min="1950" max="2050" placeholder="Ex: 2024">
+                                    </div>
+                                </div>
+                                <button type="button" class="remove-btn">Remover</button>
+                            </div>
+                        </div>
+                        <button type="button" id="addCourse" class="btn-add-section">+ Adicionar Outro Curso</button>
+                    </div>
+
+                    <!-- Seção 6: Habilidades Técnicas e Comportamentais -->
+                    <div class="form-section-card" id="section-skills">
+                        <div class="section-card-header-with-action">
+                            <div class="section-card-header">
+                                <div class="section-badge">6</div>
+                                <div>
+                                    <h2>Hard Skills & Soft Skills</h2>
+                                    <p class="section-subtext">Selecione suas competências técnicas e comportamentais</p>
+                                </div>
+                            </div>
+                            <button type="button" id="btnExplainSkills" class="btn-skills-explainer" title="Clique para entender a diferença entre Hard e Soft Skills">
+                                💡 <span>O que são Hard & Soft Skills?</span>
+                            </button>
+                        </div>
+
+                        <!-- Painel Inteligente de Sugestão de Skills com IA -->
+                        <div id="aiSkillSuggestionsPanel" class="ai-skills-panel">
+                            <div class="ai-skills-panel-header">
+                                <div>
+                                    <h4>✨ Sugestor Dinâmico de Habilidades (IA)</h4>
+                                    <p id="aiSkillsMarketSummary" class="ai-skills-market-summary">Sugestões de competências mais valorizadas no mercado para o seu objetivo profissional.</p>
+                                </div>
+                                <button type="button" id="btnRefreshSkills" class="btn-ai-small">💡 Sugerir para o cargo</button>
+                            </div>
+                            <div id="aiSkillsLoading" class="ai-loading-state" style="display: none; padding: 12px 0;">
+                                <div class="ai-spinner" style="width: 24px; height: 24px; border-width: 3px;"></div>
+                                <small>Mapeando habilidades em alta no mercado corporativo...</small>
+                            </div>
+                            <div id="aiSkillsContent" style="display: none;">
+                                <div class="suggested-chips-group">
+                                    <span class="chips-group-title">Hard Skills Recomendadas:</span>
+                                    <div id="suggestedHardSkillsList" class="chips-container"></div>
+                                </div>
+                                <div class="suggested-chips-group">
+                                    <span class="chips-group-title">Soft Skills Recomendadas:</span>
+                                    <div id="suggestedSoftSkillsList" class="chips-container"></div>
+                                </div>
+                                <div class="chips-actions">
+                                    <button type="button" id="btnSelectAllSuggestedSkills" class="btn-ai-small">✓ Adicionar Todas as Sugeridas</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Filtros por Categoria de Mercado -->
+                        <div class="skills-filter-tabs">
+                            <button type="button" class="tab-chip active" data-category="all">⚡ Todas as Áreas</button>
+                            <button type="button" class="tab-chip" data-category="tech">💻 TI & Desenvolvimento</button>
+                            <button type="button" class="tab-chip" data-category="business">📊 Gestão & Negócios</button>
+                            <button type="button" class="tab-chip" data-category="design">🎨 Design & Marketing</button>
+                            <button type="button" class="tab-chip" data-category="sales">🤝 Vendas & Atendimento</button>
+                            <button type="button" class="tab-chip" data-category="admin">⚙️ Adm & Operações</button>
+                        </div>
+
+                        <div class="skills-columns-grid">
+                            <!-- Coluna de Hard Skills -->
+                            <div class="skills-column">
+                                <div class="skills-col-header">
+                                    <h3>Hard Skills (Técnicas)</h3>
+                                    <span class="skills-badge-count" id="hardSkillsCount">0 selecionadas</span>
+                                </div>
+                                
+                                <div class="skills-selection-grid" id="hardSkillsGrid">
+                                    <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="React / Frontend"> React / Frontend</label>
+                                    <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="Node.js / Backend"> Node.js / Backend</label>
+                                    <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="Python"> Python</label>
+                                    <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="TypeScript / JavaScript"> TypeScript / JavaScript</label>
+                                    <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="SQL e Banco de Dados"> SQL e Banco de Dados</label>
+                                    <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="Git e GitHub"> Git e GitHub</label>
+                                    <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="Docker & Nuvem"> Docker & Nuvem</label>
+                                    <label class="skill-checkbox-item" data-cat="business"><input type="checkbox" class="hard-skill" value="Pacote Office / Google Workspace"> Pacote Office / Google Workspace</label>
+                                    <label class="skill-checkbox-item" data-cat="business"><input type="checkbox" class="hard-skill" value="Excel Avançado & Fórmulas"> Excel Avançado & Fórmulas</label>
+                                    <label class="skill-checkbox-item" data-cat="business"><input type="checkbox" class="hard-skill" value="Power BI & Dashboards"> Power BI & Dashboards</label>
+                                    <label class="skill-checkbox-item" data-cat="business"><input type="checkbox" class="hard-skill" value="Metodologias Ágeis (Scrum/Kanban)"> Metodologias Ágeis (Scrum/Kanban)</label>
+                                    <label class="skill-checkbox-item" data-cat="business"><input type="checkbox" class="hard-skill" value="Gestão de Projetos"> Gestão de Projetos</label>
+                                    <label class="skill-checkbox-item" data-cat="admin"><input type="checkbox" class="hard-skill" value="Sistemas ERP (SAP/Totvs/Omie)"> Sistemas ERP (SAP/Totvs/Omie)</label>
+                                    <label class="skill-checkbox-item" data-cat="admin"><input type="checkbox" class="hard-skill" value="Rotinas Administrativas e Arquivos"> Rotinas Administrativas</label>
+                                    <label class="skill-checkbox-item" data-cat="admin"><input type="checkbox" class="hard-skill" value="Fluxo de Caixa & Conciliação"> Fluxo de Caixa & Conciliação</label>
+                                    <label class="skill-checkbox-item" data-cat="design"><input type="checkbox" class="hard-skill" value="Figma / UI & UX Design"> Figma / UI & UX Design</label>
+                                    <label class="skill-checkbox-item" data-cat="design"><input type="checkbox" class="hard-skill" value="Adobe Photoshop / Illustrator"> Adobe Photoshop / Illustrator</label>
+                                    <label class="skill-checkbox-item" data-cat="design"><input type="checkbox" class="hard-skill" value="Marketing Digital & Redes Sociais"> Marketing Digital & Redes Sociais</label>
+                                    <label class="skill-checkbox-item" data-cat="sales"><input type="checkbox" class="hard-skill" value="Técnicas de Vendas & Negociação"> Técnicas de Vendas & Negociação</label>
+                                    <label class="skill-checkbox-item" data-cat="sales"><input type="checkbox" class="hard-skill" value="Sistemas de CRM (Salesforce/Hubspot)"> Sistemas de CRM</label>
+                                    <label class="skill-checkbox-item" data-cat="sales"><input type="checkbox" class="hard-skill" value="Atendimento ao Cliente (SAC/Suporte)"> Atendimento ao Cliente (SAC)</label>
+                                </div>
+                                
+                                <!-- Adicionar Hard Skill Personalizada -->
+                                <div class="custom-skills-adder-block">
+                                    <label for="customHardSkillInput">Adicionar Hard Skill Personalizada:</label>
+                                    <div class="custom-skill-input-row">
+                                        <input type="text" id="customHardSkillInput" placeholder="Ex: Next.js, SAP, AutoCAD...">
+                                        <button type="button" id="btnAddCustomHardSkill" class="btn-add-chip-skill">+ Adicionar</button>
+                                    </div>
+                                    <div id="customHardSkillsChipsContainer" class="custom-chips-cloud"></div>
+                                    <input type="hidden" id="otherHardSkills">
+                                </div>
+                            </div>
+                            
+                            <!-- Coluna de Soft Skills -->
+                            <div class="skills-column">
+                                <div class="skills-col-header">
+                                    <h3>Soft Skills (Comportamentais)</h3>
+                                    <span class="skills-badge-count" id="softSkillsCount">0 selecionadas</span>
+                                </div>
+                                
+                                <div class="skills-selection-grid" id="softSkillsGrid">
+                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Comunicação Clara e Assertiva"> Comunicação Clara e Assertiva</label>
+                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Trabalho em Equipe e Cooperação"> Trabalho em Equipe</label>
+                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Inteligência Emocional"> Inteligência Emocional</label>
+                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Resolução de Problemas Complexos"> Resolução de Problemas</label>
+                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Pensamento Crítico e Analítico"> Pensamento Crítico</label>
+                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Adaptabilidade e Flexibilidade"> Adaptabilidade e Flexibilidade</label>
+                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Gestão do Tempo e Produtividade"> Gestão do Tempo</label>
+                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Proatividade e Autonomia"> Proatividade e Autonomia</label>
+                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Liderança e Motivação de Pessoas"> Liderança e Motivação</label>
+                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Negociação e Persuasão"> Negociação e Persuasão</label>
+                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Foco em Resultados e Metas"> Foco em Resultados</label>
+                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Criatividade e Inovação"> Criatividade e Inovação</label>
+                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Empatia e Escuta Ativa"> Empatia e Escuta Ativa</label>
+                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Resiliência sob Pressão"> Resiliência sob Pressão</label>
+                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Ética e Comprometimento"> Ética e Comprometimento</label>
+                                </div>
+                                
+                                <!-- Adicionar Soft Skill Personalizada -->
+                                <div class="custom-skills-adder-block">
+                                    <label for="customSoftSkillInput">Adicionar Soft Skill Personalizada:</label>
+                                    <div class="custom-skill-input-row">
+                                        <input type="text" id="customSoftSkillInput" placeholder="Ex: Mediação de Conflitos, Storytelling...">
+                                        <button type="button" id="btnAddCustomSoftSkill" class="btn-add-chip-skill">+ Adicionar</button>
+                                    </div>
+                                    <div id="customSoftSkillsChipsContainer" class="custom-chips-cloud"></div>
+                                    <input type="hidden" id="otherSoftSkills">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Seção 7: Informações Complementares -->
+                    <div class="form-section-card" id="section-additional">
+                        <div class="section-card-header">
+                            <div class="section-badge">7</div>
+                            <h2>Informações Complementares</h2>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="additionalInfo">Idiomas, disponibilidade de horários/viagens, links (GitHub / Portfólio / LinkedIn):</label>
+                            <textarea id="additionalInfo" rows="3" placeholder="Ex: Inglês Intermediário; Disponibilidade para início imediato; Portfólio: github.com/meuperfil"></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Painel de Ações e Exportação -->
+                    <div class="form-actions-card">
+                        <div class="actions-group-primary">
+                            <button type="button" id="generateBtn" class="btn-primary-action">🚀 Gerar Currículo</button>
+                            <button type="button" id="aiReviewBtn" class="btn-ai-main">✨ Revisar Ortografia & Tom</button>
+                            <button type="button" id="btnOpenAtsBottom" class="btn-ai-ats">🌡️ Termômetro da Vaga (ATS)</button>
+                        </div>
+                        <div class="actions-group-secondary">
+                            <button type="button" id="exportWordBtn" class="btn-export-word">📄 Exportar para Word</button>
+                            <button type="button" id="saveBtn" class="btn-save">💾 Salvar Dados</button>
+                            <button type="reset" id="clearBtn" class="btn-clear">🗑️ Limpar</button>
+                        </div>
                     </div>
                 </form>
             </div>
-           
-            <div class="preview-container" id="resumePreview">
-                <!-- O currículo gerado será exibido aqui -->
-            </div>
-        </main>
-       
-        <!-- Modal para ajudar a criar a síntese -->
-        <div id="synthesisModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Assistente de Síntese de Qualificações</h2>
-                <p>Escolha um dos modelos abaixo ou crie sua síntese personalizada:</p>
-               
-                <div class="synthesis-examples">
-                    <div class="synthesis-example">
-                        <h3>Exemplo 1 - Com experiência profissional</h3>
-                        <p>Estudante do curso Técnico em Recursos Humanos pelo Senac, com experiência em atividades administrativas e atendimento ao público. Possui domínio básico de informática e se destaca pela comunicação, organização e facilidade em aprender novas tarefas. Demonstra responsabilidade e bom relacionamento interpessoal.</p>
-                        <button type="button" class="use-example" data-example="1">Usar este modelo</button>
+            
+            <!-- Coluna 2: Enquadramento em Tempo Real do Documento A4 (Sticky Preview) -->
+            <div class="preview-column">
+                <div class="preview-panel-sticky">
+                    <!-- Toolbar Superior do Currículo -->
+                    <div class="preview-toolbar-card">
+                        <button type="button" id="btnPreviewPrint" class="btn-tool-print" onclick="window.print()">
+                            <span>🖨️</span>
+                            <span class="tool-label">Imprimir / Salvar PDF</span>
+                        </button>
+                        <button type="button" id="btnPreviewExportWord" class="btn-tool-word">
+                            <span>📄</span>
+                            <span class="tool-label">Word</span>
+                        </button>
+                        <button type="button" id="btnPreviewTranslate" class="btn-tool-lang">
+                            <span>🌐</span>
+                            <span class="tool-label">Traduzir (EN/ES)</span>
+                        </button>
+                        <button type="button" id="btnPreviewCoverLetter" class="btn-tool-cover">
+                            <span>✉️</span>
+                            <span class="tool-label">Carta de Apresentação</span>
+                        </button>
                     </div>
-                   
-                    <div class="synthesis-example">
-                        <h3>Exemplo 2 - Sem experiência formal</h3>
-                        <p>Estudante do curso Técnico em Administração, com conhecimentos básicos em informática e rotinas administrativas. É comunicativo, proativo e comprometido, demonstrando interesse em desenvolver novas habilidades e contribuir para o crescimento da equipe e da organização.</p>
-                        <button type="button" class="use-example" data-example="2">Usar este modelo</button>
+                    
+                    <!-- Folha A4 com Enquadramento Realista -->
+                    <div class="a4-document-viewport">
+                        <div class="preview-container" id="resumePreview">
+                            <!-- O currículo gerado em tempo real será renderizado aqui -->
+                        </div>
                     </div>
                 </div>
-               
-                <div class="custom-synthesis">
-                    <h3>Criar síntese personalizada</h3>
-                    <p>Selecione de 3 a 5 habilidades técnicas e comportamentais que mais o representam:</p>
-                   
-                    <div class="modal-skills-section">
-                        <div class="modal-skills-column">
-                            <h4>Hard Skills</h4>
-                            <div class="skills-selection">
-                                <div><input type="checkbox" class="modal-hard-skill" value="Programação"> Programação</div>
-                                <div><input type="checkbox" class="modal-hard-skill" value="Análise de dados"> Análise de dados</div>
-                                <div><input type="checkbox" class="modal-hard-skill" value="Pacote Office"> Pacote Office</div>
-                                <div><input type="checkbox" class="modal-hard-skill" value="Controle de planilhas e dados"> Controle de planilhas e dados</div>
-                                <div><input type="checkbox" class="modal-hard-skill" value="Operação de sistemas de gestão (ERP)"> Operação de sistemas de gestão (ERP)</div>
-                                <div><input type="checkbox" class="modal-hard-skill" value="Ferramentas de videoconferência"> Ferramentas de videoconferência</div>
-                                <div><input type="checkbox" class="modal-hard-skill" value="Google Docs / Drive"> Google Docs / Drive</div>
-                                <div><input type="checkbox" class="modal-hard-skill" value="Rotinas administrativas"> Rotinas administrativas</div>
-                                <div><input type="checkbox" class="modal-hard-skill" value="Noções de fluxo de caixa"> Noções de fluxo de caixa</div>
+            </div>
+        </main>
+        
+        <!-- ========================================================
+             MODAIS DA APLICAÇÃO (IA, ATS, EXPORTAÇÃO & EDUCAÇÃO)
+             ======================================================== -->
+
+        <!-- Modal 1: Síntese de Qualificações com IA (3 Opções) -->
+        <div id="aiSynthesisModal" class="modal">
+            <div class="modal-content modal-large">
+                <span class="close close-ai-synthesis">&times;</span>
+                <div class="modal-header-ai">
+                    <span class="ai-sparkle">✨</span>
+                    <h2>Gerador Inteligente de Síntese</h2>
+                </div>
+                <p class="modal-subtitle">A IA leu seus dados preenchidos (Educação, Experiências e Skills) e formulou 3 perfis profissionais de alto impacto. Escolha o que melhor representa seu momento:</p>
+                
+                <div id="aiSynthesisLoading" class="ai-loading-state" style="display: none;">
+                    <div class="ai-spinner"></div>
+                    <p>Analisando perfil e redigindo sínteses profissionais com IA...</p>
+                </div>
+
+                <div id="aiSynthesisCards" class="ai-options-grid">
+                    <div class="ai-option-card" id="cardExecutive">
+                        <div class="card-badge executive-badge">👔 Executivo / Foco em Resultados</div>
+                        <p class="card-text" id="textExecutive">Clique em gerar para carregar as opções...</p>
+                        <button type="button" class="btn-use-ai-synthesis" data-type="executive">Usar Perfil Executivo</button>
+                    </div>
+                    
+                    <div class="ai-option-card" id="cardTechnical">
+                        <div class="card-badge technical-badge">⚙️ Técnico / Especialista</div>
+                        <p class="card-text" id="textTechnical">Clique em gerar para carregar as opções...</p>
+                        <button type="button" class="btn-use-ai-synthesis" data-type="technical">Usar Perfil Técnico</button>
+                    </div>
+                    
+                    <div class="ai-option-card" id="cardCreative">
+                        <div class="card-badge creative-badge">💡 Criativo / Inovador & Adaptável</div>
+                        <p class="card-text" id="textCreative">Clique em gerar para carregar as opções...</p>
+                        <button type="button" class="btn-use-ai-synthesis" data-type="creative">Usar Perfil Criativo</button>
+                    </div>
+                </div>
+                
+                <div class="modal-footer-actions">
+                    <button type="button" id="btnRegenerateSynthesis" class="btn-secondary">🔄 Gerar Novamente</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 2: Melhoria de Descrição de Experiência com IA (STAR) -->
+        <div id="aiExperienceModal" class="modal">
+            <div class="modal-content">
+                <span class="close close-ai-exp">&times;</span>
+                <div class="modal-header-ai">
+                    <span class="ai-sparkle">✨</span>
+                    <h2>Aprimoramento de Atividades com IA</h2>
+                </div>
+                <p class="modal-subtitle">Reescrita orientada pela metodologia <strong>STAR</strong> (Situação, Tarefa, Ação, Resultado) com verbos de ação corporativos:</p>
+
+                <div id="aiExpLoading" class="ai-loading-state" style="display: none;">
+                    <div class="ai-spinner"></div>
+                    <p>Otimizando descrição com metodologia STAR...</p>
+                </div>
+
+                <div id="aiExpContent" class="ai-comparison-container">
+                    <div class="comparison-box">
+                        <span class="comparison-tag tag-before">Texto Atual</span>
+                        <div id="expOriginalText" class="comparison-text original-box"></div>
+                    </div>
+                    <div class="comparison-box">
+                        <span class="comparison-tag tag-after">Versão Otimizada pela IA</span>
+                        <textarea id="expImprovedText" class="comparison-textarea" rows="5"></textarea>
+                        <small id="expExplanation" class="ai-explanation"></small>
+                    </div>
+                </div>
+
+                <div class="modal-footer-actions">
+                    <button type="button" id="btnApplyExpAi" class="btn-ai-highlight">Aplicar ao Currículo</button>
+                    <button type="button" class="btn-secondary close-ai-exp-btn">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 3: Revisão Ortográfica e de Tom Corporativo -->
+        <div id="aiReviewModal" class="modal">
+            <div class="modal-content modal-large">
+                <span class="close close-ai-review">&times;</span>
+                <div class="modal-header-ai">
+                    <span class="ai-sparkle">✨</span>
+                    <h2>Revisão Ortográfica e Tom Corporativo</h2>
+                </div>
+                <p class="modal-subtitle">Avaliando gramática, concordância, formalidade e adequação corporativa em todo o currículo:</p>
+
+                <div id="aiReviewLoading" class="ai-loading-state" style="display: none;">
+                    <div class="ai-spinner"></div>
+                    <p>Analisando todas as seções do documento com IA...</p>
+                </div>
+
+                <div id="aiReviewList" class="ai-review-list">
+                    <!-- Cards de revisão por campo aparecerão aqui -->
+                </div>
+
+                <div class="modal-footer-actions">
+                    <button type="button" id="btnApplyAllReview" class="btn-ai-highlight">Aplicar Todas as Correções</button>
+                    <button type="button" class="btn-secondary close-ai-review-btn">Fechar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 4: Configuração da IA (Gemini API Key) -->
+        <div id="aiSettingsModal" class="modal">
+            <div class="modal-content">
+                <span class="close close-ai-settings">&times;</span>
+                <div class="modal-header-ai">
+                    <span class="ai-sparkle">⚙️</span>
+                    <h2>Configuração da IA (Google Gemini)</h2>
+                </div>
+                <p class="modal-subtitle">Insira sua chave de API gratuita do Google Gemini para habilitar todo o potencial de geração e escrita com IA:</p>
+
+                <div class="form-group">
+                    <label for="geminiApiKeyInput">Chave da API Gemini (Google AI Studio)</label>
+                    <input type="password" id="geminiApiKeyInput" placeholder="Ex: AIzaSy...">
+                    <small class="helper-text">
+                        A chave fica salva exclusivamente no seu navegador (localStorage).
+                        Não tem uma chave? <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" style="color: #155491; font-weight: bold;">Obter chave gratuita no Google AI Studio &rarr;</a>
+                    </small>
+                </div>
+
+                <div id="apiKeyTestStatus" class="api-key-status"></div>
+
+                <div class="modal-footer-actions">
+                    <button type="button" id="btnSaveApiKey" class="btn-ai-highlight">Salvar Chave</button>
+                    <button type="button" id="btnRemoveApiKey" class="btn-secondary" style="color: #e74c3c;">Remover Chave</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 5: Importação Inteligente de Currículo (Resume Parsing) -->
+        <div id="aiImportModal" class="modal">
+            <div class="modal-content modal-large">
+                <span class="close close-ai-import">&times;</span>
+                <div class="modal-header-ai">
+                    <span class="ai-sparkle">📥</span>
+                    <h2>Importação Inteligente com IA</h2>
+                </div>
+                <p class="modal-subtitle">Envie seu currículo antigo (PDF, Word ou TXT) ou cole o texto do seu perfil do LinkedIn. A IA extrairá e organizará todas as seções automaticamente:</p>
+                
+                <div class="import-tabs">
+                    <button type="button" class="import-tab-btn active" data-tab="uploadTab">📁 Enviar Arquivo (PDF / Word / TXT)</button>
+                    <button type="button" class="import-tab-btn" data-tab="pasteTab">📋 Colar Texto (LinkedIn / Outro)</button>
+                </div>
+                
+                <!-- Aba Upload de Arquivo -->
+                <div id="uploadTab" class="import-tab-pane active">
+                    <div class="drop-zone" id="dropZone">
+                        <div class="drop-zone-icon">📄</div>
+                        <p class="drop-zone-text">Arraste e solte seu arquivo aqui ou <span class="drop-browse">clique para selecionar</span></p>
+                        <p class="drop-zone-hint">Formatos suportados: .pdf, .docx, .txt</p>
+                        <input type="file" id="resumeFileInput" accept=".pdf,.docx,.txt" style="display: none;">
+                    </div>
+                    <div id="fileUploadStatus" class="file-upload-status" style="display: none;"></div>
+                </div>
+                
+                <!-- Aba Colar Texto -->
+                <div id="pasteTab" class="import-tab-pane" style="display: none;">
+                    <div class="form-group">
+                        <label for="pasteResumeText">Texto do Currículo ou Perfil do LinkedIn</label>
+                        <textarea id="pasteResumeText" rows="8" placeholder="Copie todo o texto do seu LinkedIn ou currículo antigo e cole aqui..."></textarea>
+                    </div>
+                    <button type="button" id="btnProcessPastedText" class="btn-ai-highlight">⚡ Extrair Dados com IA</button>
+                </div>
+                
+                <div id="aiImportLoading" class="ai-loading-state" style="display: none;">
+                    <div class="ai-spinner"></div>
+                    <p id="aiImportLoadingText">Extraindo informações e mapeando campos com IA...</p>
+                </div>
+                
+                <!-- Resumo dos dados extraídos -->
+                <div id="aiImportPreview" class="ai-import-summary" style="display: none;">
+                    <h3>✨ Dados Identificados com Sucesso!</h3>
+                    <div id="aiImportSummaryCards" class="import-summary-grid"></div>
+                    <div class="modal-footer-actions">
+                        <button type="button" id="btnConfirmHydrateForm" class="btn-ai-highlight">✓ Preencher Formulário com Estes Dados</button>
+                        <button type="button" class="btn-secondary close-ai-import-btn">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 6: Termômetro de Vaga (ATS Compatibility & Keyword Matching) -->
+        <div id="aiAtsModal" class="modal">
+            <div class="modal-content modal-large">
+                <span class="close close-ai-ats">&times;</span>
+                <div class="modal-header-ai">
+                    <span class="ai-sparkle">🌡️</span>
+                    <h2>Termômetro de Vaga & Otimizador ATS</h2>
+                </div>
+                <p class="modal-subtitle">Cole abaixo a descrição da vaga desejada (requisitos, atribuições ou anúncio do LinkedIn/Gupy/Indeed). A IA medirá sua compatibilidade e indicará as palavras-chave que faltam no seu currículo:</p>
+
+                <div class="ats-input-section">
+                    <div class="form-group">
+                        <label for="atsJobDescription">Descrição / Requisitos da Vaga:</label>
+                        <textarea id="atsJobDescription" rows="6" placeholder="Cole aqui a descrição completa da vaga, requisitos técnicos, qualificações desejadas e atribuições..."></textarea>
+                    </div>
+                    <div class="ats-action-row">
+                        <button type="button" id="btnRunAtsAnalysis" class="btn-ai-highlight">⚡ Calcular Compatibilidade com a Vaga</button>
+                    </div>
+                </div>
+
+                <div id="atsLoadingState" class="ai-loading-state" style="display: none;">
+                    <div class="ai-spinner"></div>
+                    <p>Auditando palavras-chave, requisitos e calculando Score ATS do currículo...</p>
+                </div>
+
+                <!-- Painel de Resultados ATS -->
+                <div id="atsResultsContainer" class="ats-results-panel" style="display: none;">
+                    <!-- Medidor de Score -->
+                    <div class="ats-score-dashboard">
+                        <div class="ats-gauge-box">
+                            <div class="ats-score-circle" id="atsScoreCircle">
+                                <span id="atsScoreValue" class="score-number">--%</span>
+                                <span class="score-label">Score ATS</span>
                             </div>
                         </div>
-                       
-                        <div class="modal-skills-column">
-                            <h4>Soft Skills</h4>
-                            <div class="skills-selection">
-                                <div><input type="checkbox" class="modal-soft-skill" value="Trabalho em equipe"> Trabalho em equipe</div>
-                                <div><input type="checkbox" class="modal-soft-skill" value="Adaptabilidade"> Adaptabilidade</div>
-                                <div><input type="checkbox" class="modal-soft-skill" value="Comunicação clara"> Comunicação clara</div>
-                                <div><input type="checkbox" class="modal-soft-skill" value="Escuta ativa"> Escuta ativa</div>
-                                <div><input type="checkbox" class="modal-soft-skill" value="Criatividade"> Criatividade</div>
-                                <div><input type="checkbox" class="modal-soft-skill" value="Inovação"> Inovação</div>
-                                <div><input type="checkbox" class="modal-soft-skill" value="Visão de melhoria contínua"> Visão de melhoria contínua</div>
-                                <div><input type="checkbox" class="modal-soft-skill" value="Organização"> Organização</div>
-                                <div><input type="checkbox" class="modal-soft-skill" value="Comprometimento"> Comprometimento</div>
-                            </div>
+                        <div class="ats-diagnosis-box">
+                            <div class="ats-level-tag" id="atsLevelTag">Avaliando...</div>
+                            <h3 id="atsDiagnosisTitle">Diagnóstico de Compatibilidade</h3>
+                            <p id="atsDiagnosisSummary" class="ats-summary-text"></p>
                         </div>
                     </div>
-                   
-                    <button type="button" id="generateCustomSynthesis">Gerar Síntese Personalizada</button>
+
+                    <!-- Banner de Alinhamento de Cargo Sugerido -->
+                    <div id="atsRoleSuggestionBanner" class="ats-role-banner" style="display: none;"></div>
+
+                    <!-- Grid de Palavras-Chave -->
+                    <div class="ats-keywords-section">
+                        <!-- Palavras-chave Encontradas -->
+                        <div class="keywords-card keywords-found">
+                            <h4>✅ Palavras-Chave Identificadas no Currículo</h4>
+                            <p class="keywords-hint">Termos da vaga que já constam no seu documento:</p>
+                            <div id="atsPresentKeywordsList" class="ats-tags-cloud"></div>
+                        </div>
+
+                        <!-- Palavras-chave Ausentes -->
+                        <div class="keywords-card keywords-missing">
+                            <h4>⚠️ Palavras-Chave Ausentes (Oportunidades de Melhoria)</h4>
+                            <p class="keywords-hint">Termos cruciais da vaga não detectados. Clique em <strong>+ Adicionar</strong> para incluir direto no currículo:</p>
+                            <div id="atsMissingKeywordsList" class="ats-missing-cloud"></div>
+                        </div>
+                    </div>
+
+                    <!-- Plano de Ação Passo a Passo para se Adequar à Vaga -->
+                    <div class="ats-action-plan-section">
+                        <h4>🚀 Plano de Ação: Como se Adequar a Esta Vaga</h4>
+                        <p class="keywords-hint">Passo a passo com recomendações práticas para maximizar suas chances de contratação:</p>
+                        <div id="atsActionPlanCards" class="ats-action-plan-grid"></div>
+                    </div>
+
+                    <!-- Recomendações Estratégicas para Passar pelo Robô ATS -->
+                    <div class="ats-recommendations-card">
+                        <h4>💡 Dicas Adicionais para Ranqueamento no ATS</h4>
+                        <ul id="atsRecommendationsList" class="ats-tips-list"></ul>
+                    </div>
+
+                    <div class="modal-footer-actions">
+                        <button type="button" id="btnReanalyzeAts" class="btn-ai-highlight">🔄 Recalcular com Alterações Feitas</button>
+                        <button type="button" class="btn-secondary close-ai-ats-btn">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 7: Pop-up Explicativo de Hard Skills vs Soft Skills -->
+        <div id="skillsExplainerModal" class="modal">
+            <div class="modal-content modal-large">
+                <span class="close close-skills-explainer">&times;</span>
+                <div class="modal-header-ai">
+                    <span class="ai-sparkle">💡</span>
+                    <h2>Entenda: Hard Skills vs Soft Skills</h2>
+                </div>
+                <p class="modal-subtitle">Descubra a diferença prática e como equilibrar ambas para passar nos robôs ATS e impressionar recrutadores:</p>
+
+                <div class="skills-explainer-grid">
+                    <div class="explainer-card card-hard-skills">
+                        <div class="explainer-card-header">
+                            <span class="explainer-icon">⚙️</span>
+                            <div>
+                                <h3>Hard Skills</h3>
+                                <span class="explainer-badge">Habilidades Técnicas</span>
+                            </div>
+                        </div>
+                        <p class="explainer-desc">
+                            São competências <strong>mensuráveis e comprováveis</strong>, aprendidas por meio de cursos, certificações, graduação ou prática técnica direta.
+                        </p>
+                        <div class="explainer-examples">
+                            <strong>Exemplos no mercado:</strong>
+                            <ul>
+                                <li>Linguagens de programação (React, Python, SQL)</li>
+                                <li>Ferramentas de escritório e análise (Excel Avançado, Power BI)</li>
+                                <li>Sistemas corporativos (SAP, Totvs, Salesforce)</li>
+                                <li>Design e prototipagem (Figma, Photoshop)</li>
+                                <li>Idiomas e certificações técnicas</li>
+                            </ul>
+                        </div>
+                        <div class="explainer-tip">
+                            <strong>🎯 No Robô ATS:</strong> São os filtros eliminatórios primários. O sistema busca correspondência exata das palavras-chave.
+                        </div>
+                    </div>
+
+                    <div class="explainer-card card-soft-skills">
+                        <div class="explainer-card-header">
+                            <span class="explainer-icon">🧠</span>
+                            <div>
+                                <h3>Soft Skills</h3>
+                                <span class="explainer-badge">Habilidades Comportamentais</span>
+                            </div>
+                        </div>
+                        <p class="explainer-desc">
+                            São traços de <strong>personalidade, inteligência emocional e convivência</strong> que definem como você trabalha, lidera e resolve desafios em equipe.
+                        </p>
+                        <div class="explainer-examples">
+                            <strong>Exemplos no mercado:</strong>
+                            <ul>
+                                <li>Comunicação clara e assertiva</li>
+                                <li>Trabalho em equipe e empatia</li>
+                                <li>Inteligência emocional e resiliência sob pressão</li>
+                                <li>Gestão de tempo, organização e autonomia</li>
+                                <li>Liderança e pensamento crítico</li>
+                            </ul>
+                        </div>
+                        <div class="explainer-tip">
+                            <strong>🤝 Na Entrevista:</strong> São o diferencial que decide a contratação humana após o robô ATS aprovar seu currículo.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="explainer-golden-rule">
+                    <h4>⭐ Dica de Ouro dos Recrutadores</h4>
+                    <p>Um currículo de alta conversão combina <strong>5 a 8 Hard Skills fundamentais</strong> com <strong>3 a 5 Soft Skills comprovadas</strong> nas suas descrições de atividades com a metodologia STAR.</p>
+                </div>
+
+                <div class="modal-footer-actions">
+                    <button type="button" class="btn-ai-highlight close-skills-explainer-btn">✓ Entendi! Voltar ao Formulário</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 8: Tradução em Um Clique com IA (Inglês & Espanhol) -->
+        <div id="aiTranslateModal" class="modal">
+            <div class="modal-content modal-large">
+                <span class="close close-ai-translate">&times;</span>
+                <div class="modal-header-ai">
+                    <span class="ai-sparkle">🌐</span>
+                    <h2>Tradução em Um Clique com IA</h2>
+                </div>
+                <p class="modal-subtitle">Converta ou restaure todo o currículo para <strong>Inglês</strong>, <strong>Espanhol</strong> ou <strong>Português</strong> mantendo jargões técnicos e formatação corporativa precisa:</p>
+
+                <div class="translate-lang-selector">
+                    <label class="lang-option-card active" data-lang="en">
+                        <input type="radio" name="translateTargetLang" value="en" checked>
+                        <span class="lang-flag">🇺🇸</span>
+                        <div class="lang-info">
+                            <strong>Inglês (English)</strong>
+                            <span>Resume format com termos internacionais</span>
+                        </div>
+                    </label>
+                    <label class="lang-option-card" data-lang="es">
+                        <input type="radio" name="translateTargetLang" value="es">
+                        <span class="lang-flag">🇪🇸</span>
+                        <div class="lang-info">
+                            <strong>Espanhol (Español)</strong>
+                            <span>Currículum vitae para América Latina e Espanha</span>
+                        </div>
+                    </label>
+                    <label class="lang-option-card" data-lang="pt">
+                        <input type="radio" name="translateTargetLang" value="pt">
+                        <span class="lang-flag">🇧🇷</span>
+                        <div class="lang-info">
+                            <strong>Português (Brasil)</strong>
+                            <span>Retornar / padronizar termos para o mercado brasileiro</span>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="translate-action-row">
+                    <button type="button" id="btnRunTranslation" class="btn-ai-highlight">⚡ Traduzir Todo o Currículo</button>
+                </div>
+
+                <div id="aiTranslateLoading" class="ai-loading-state" style="display: none;">
+                    <div class="ai-spinner"></div>
+                    <p>Traduzindo experiências, formação, síntese e habilidades com IA...</p>
+                </div>
+
+                <div id="aiTranslatePreviewContainer" class="translate-preview-box" style="display: none;">
+                    <h3>✨ Tradução Concluída com Sucesso!</h3>
+                    <p class="translate-preview-note">Você pode aplicar a tradução diretamente no formulário para gerar o PDF ou baixar a versão Word traduzida:</p>
+                    <div id="translateSummaryDiff" class="translate-diff-container"></div>
+
+                    <div class="modal-footer-actions">
+                        <button type="button" id="btnApplyTranslationToForm" class="btn-ai-highlight">✓ Aplicar ao Formulário & Preview</button>
+                        <button type="button" id="btnDownloadTranslatedWord" class="btn-export-word">📄 Baixar Word (.docx) Traduzido</button>
+                        <button type="button" id="btnRestoreOriginalResume" class="btn-secondary" style="display: none;">🔄 Restaurar Versão em Português</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 9: Gerador de Carta de Apresentação (Cover Letter) com IA -->
+        <div id="aiCoverLetterModal" class="modal">
+            <div class="modal-content modal-large">
+                <span class="close close-ai-cover">&times;</span>
+                <div class="modal-header-ai">
+                    <span class="ai-sparkle">✉️</span>
+                    <h2>Gerador de Carta de Apresentação com IA</h2>
+                </div>
+                <p class="modal-subtitle">Crie uma carta de apresentação (Cover Letter) de alto impacto correlacionando sua trajetória profissional com a vaga desejada:</p>
+
+                <div class="cover-letter-config-grid">
+                    <div class="form-group">
+                        <label for="coverCompanyName">Nome da Empresa / Recrutador (Opcional):</label>
+                        <input type="text" id="coverCompanyName" placeholder="Ex: Google Brasil, Ambev, Tech Solutions...">
+                    </div>
+                    <div class="form-group">
+                        <label for="coverToneSelect">Tom da Carta:</label>
+                        <select id="coverToneSelect">
+                            <option value="executive">👔 Executivo / Foco em Resultados & Liderança</option>
+                            <option value="modern" selected>🚀 Moderno / Dinâmico & Inovador</option>
+                            <option value="technical">💻 Técnico / Especialista em Ferramentas</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="label-with-ai-action">
+                        <label for="coverJobDescription">Descrição / Requisitos da Vaga (Opcional):</label>
+                        <button type="button" id="btnPullJobFromAts" class="btn-text-helper">Puxar texto do Termômetro ATS</button>
+                    </div>
+                    <textarea id="coverJobDescription" rows="4" placeholder="Cole os requisitos da vaga para a IA personalizar os argumentos da carta..."></textarea>
+                </div>
+
+                <div class="cover-action-row">
+                    <button type="button" id="btnGenerateCoverLetter" class="btn-ai-highlight">⚡ Gerar Carta de Apresentação</button>
+                </div>
+
+                <div id="aiCoverLoading" class="ai-loading-state" style="display: none;">
+                    <div class="ai-spinner"></div>
+                    <p>Elaborando carta de apresentação personalizada com IA...</p>
+                </div>
+
+                <div id="aiCoverPreviewContainer" class="cover-preview-box" style="display: none;">
+                    <div class="cover-preview-header">
+                        <h4>📄 Sua Carta de Apresentação:</h4>
+                        <span class="cover-preview-hint">Você pode editar o texto diretamente abaixo se desejar:</span>
+                    </div>
+                    <textarea id="coverLetterOutputText" class="cover-letter-textarea" rows="12"></textarea>
+
+                    <div class="modal-footer-actions">
+                        <button type="button" id="btnCopyCoverLetter" class="btn-ai-highlight">📋 Copiar Texto</button>
+                        <button type="button" id="btnExportCoverWord" class="btn-export-word">📄 Baixar em Word (.docx)</button>
+                        <button type="button" id="btnPrintCoverLetter" class="btn-secondary">🖨️ Imprimir / PDF</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 10: Exemplos Clássicos de Síntese -->
+        <div id="synthesisModal" class="modal">
+            <div class="modal-content modal-large">
+                <span class="close close-synthesis-classic">&times;</span>
+                <div class="modal-header-ai">
+                    <span class="ai-sparkle">📋</span>
+                    <h2>Modelos Prontos de Síntese de Qualificações</h2>
+                </div>
+                <p class="modal-subtitle">Escolha um dos modelos prontos abaixo para preencher automaticamente sua síntese profissional:</p>
+                
+                <div class="synthesis-examples">
+                    <div class="synthesis-example-card">
+                        <div class="synthesis-card-header">
+                            <span class="synthesis-card-badge">Modelo 1</span>
+                            <h3>Com Experiência Profissional</h3>
+                        </div>
+                        <p class="synthesis-text-preview">Estudante do curso Técnico em Recursos Humanos pelo Senac, com experiência em atividades administrativas e atendimento ao público. Possui domínio básico de informática e se destaca pela comunicação, organização e facilidade em aprender novas tarefas. Demonstra responsabilidade e bom relacionamento interpessoal.</p>
+                        <div class="synthesis-card-footer">
+                            <button type="button" class="btn-use-synthesis use-example" data-example="1">⚡ Usar este modelo</button>
+                        </div>
+                    </div>
+                    
+                    <div class="synthesis-example-card">
+                        <div class="synthesis-card-header">
+                            <span class="synthesis-card-badge">Modelo 2</span>
+                            <h3>Primeiro Emprego / Sem Experiência Formal</h3>
+                        </div>
+                        <p class="synthesis-text-preview">Estudante do curso Técnico em Administração, com conhecimentos básicos em informática e rotinas administrativas. É comunicativo, proativo e comprometido, demonstrando interesse em desenvolver novas habilidades e contribuir para o crescimento da equipe e da organização.</p>
+                        <div class="synthesis-card-footer">
+                            <button type="button" class="btn-use-synthesis use-example" data-example="2">⚡ Usar este modelo</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-   
+
+    <!-- Rodapé -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>Desenvolvido Pela Turma Técnica de Desenvolvimento de Sistemas do SENAC - 2025 | 13 & 61</p>
+            </div>
+            <div class="footer-logo">
+                <div class="color-palette">
+                    <span class="color-dot color-orange"></span>
+                    <span class="color-dot color-blue"></span>
+                    <span class="color-dot color-white"></span>
+                    <span class="color-dot color-black"></span>
+                    <span class="color-dot color-light-orange"></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
     <!-- Bibliotecas externas -->
     <script src="https://unpkg.com/docx@7.1.0/build/index.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    
     <!-- Scripts da aplicação -->
+    <script src="js/ai-service.js"></script>
     <script src="js/data-storage.js"></script>
     <script src="js/form-handlers.js"></script>
     <script src="js/resume-generator.js"></script>
     <script src="js/export-utils.js"></script>
-    <script src="js/main.js"></script>
     <script src="js/realtime-preview.js"></script>
-    <script>
-    if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("service-worker.js")
-            .then(() => console.log("✅ Service Worker registrado!"))
-            .catch(err => console.warn("Erro no SW:", err));
-    }
-    </script>
-
+    <script src="js/main.js"></script>
 </body>
 </html>
