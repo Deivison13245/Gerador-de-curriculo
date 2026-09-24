@@ -66,6 +66,8 @@ const FormHandlers = (function() {
         initializeAiCoverLetterModal();
         initializePreviewToolbar();
         initializeMobileTabs();
+        initializeFormAccordions();
+        initializeMobileQuickActions();
         
         // Botão de limpar
         document.getElementById('clearBtn').addEventListener('click', function(e) {
@@ -2368,6 +2370,49 @@ const FormHandlers = (function() {
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
+    }
+
+    /**
+     * Inicializa os accordions retráteis do formulário para foco e usabilidade em telas menores
+     */
+    function initializeFormAccordions() {
+        const triggers = document.querySelectorAll('.section-accordion-trigger');
+        triggers.forEach(trigger => {
+            trigger.addEventListener('click', function(e) {
+                // Se clicou em um botão dentro do cabeçalho (como o botão de ajuda de skills), não colapsa
+                if (e.target.closest('button') || e.target.closest('a') || e.target.closest('input')) {
+                    return;
+                }
+
+                const card = this.closest('.form-section-card');
+                if (card) {
+                    card.classList.toggle('collapsed');
+                }
+            });
+        });
+    }
+
+    /**
+     * Inicializa os botões da barra fixa inferior mobile no modo de visualização
+     */
+    function initializeMobileQuickActions() {
+        const btnWord = document.getElementById('btnMobileWordQuick');
+        const btnTranslate = document.getElementById('btnMobileTranslateQuick');
+        const translateModal = document.getElementById('aiTranslateModal');
+
+        if (btnWord) {
+            btnWord.addEventListener('click', function() {
+                if (typeof ExportUtils !== 'undefined' && typeof ExportUtils.exportToWord === 'function') {
+                    ExportUtils.exportToWord();
+                }
+            });
+        }
+
+        if (btnTranslate && translateModal) {
+            btnTranslate.addEventListener('click', function() {
+                translateModal.style.display = 'block';
+            });
+        }
     }
 
     return {

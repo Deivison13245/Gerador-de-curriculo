@@ -107,254 +107,279 @@
                 <form id="resumeForm" onsubmit="return false;">
                     <!-- Seção 1: Informações Pessoais -->
                     <div class="form-section-card" id="section-personal">
-                        <div class="section-card-header">
-                            <div class="section-badge">1</div>
-                            <h2>Informações Pessoais</h2>
+                        <div class="section-card-header section-accordion-trigger" data-target="body-personal">
+                            <div class="section-header-title">
+                                <div class="section-badge">1</div>
+                                <h2>Informações Pessoais</h2>
+                            </div>
+                            <span class="accordion-chevron">▾</span>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="name">Nome Completo *</label>
-                            <input type="text" id="name" required placeholder="Ex: Maria Silva Santos">
-                        </div>
-                        
-                        <div class="form-row">
+                        <div class="section-card-body" id="body-personal">
                             <div class="form-group">
-                                <label for="birthplace">Naturalidade (Cidade/Estado onde nasceu)</label>
-                                <input type="text" id="birthplace" placeholder="Ex: São Paulo, SP">
+                                <label for="name">Nome Completo *</label>
+                                <input type="text" id="name" required placeholder="Ex: Maria Silva Santos" autocomplete="name">
                             </div>
-                            <div class="form-group">
-                                <label for="maritalStatus">Estado Civil</label>
-                                <select id="maritalStatus">
-                                    <option value="">Selecione</option>
-                                    <option value="Solteiro(a)">Solteiro(a)</option>
-                                    <option value="Casado(a)">Casado(a)</option>
-                                    <option value="Divorciado(a)">Divorciado(a)</option>
-                                    <option value="Viúvo(a)">Viúvo(a)</option>
-                                    <option value="União Estável">União Estável</option>
-                                </select>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="birthplace">Naturalidade (Cidade/Estado onde nasceu)</label>
+                                    <input type="text" id="birthplace" placeholder="Ex: São Paulo, SP">
+                                </div>
+                                <div class="form-group">
+                                    <label for="maritalStatus">Estado Civil</label>
+                                    <select id="maritalStatus">
+                                        <option value="">Selecione</option>
+                                        <option value="Solteiro(a)">Solteiro(a)</option>
+                                        <option value="Casado(a)">Casado(a)</option>
+                                        <option value="Divorciado(a)">Divorciado(a)</option>
+                                        <option value="Viúvo(a)">Viúvo(a)</option>
+                                        <option value="União Estável">União Estável</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="age">Idade</label>
+                                    <input type="number" id="age" min="14" max="100" placeholder="Ex: 25" inputmode="numeric">
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="age">Idade</label>
-                                <input type="number" id="age" min="14" max="100" placeholder="Ex: 25">
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="neighborhood">Bairro</label>
+                                    <input type="text" id="neighborhood" placeholder="Ex: Pinheiros">
+                                </div>
+                                <div class="form-group">
+                                    <label for="city">Cidade</label>
+                                    <input type="text" id="city" required placeholder="Ex: São Paulo" autocomplete="address-level2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="state">Estado (UF)</label>
+                                    <input type="text" id="state" maxlength="2" required placeholder="Ex: SP" autocomplete="address-level1">
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="neighborhood">Bairro</label>
-                                <input type="text" id="neighborhood" placeholder="Ex: Pinheiros">
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="phone1">Telefone Principal (com DDD) *</label>
+                                    <input type="tel" id="phone1" required placeholder="Ex: (11) 99999-9999" inputmode="tel" autocomplete="tel">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone2">Telefone Secundário (opcional)</label>
+                                    <input type="tel" id="phone2" placeholder="Ex: (11) 98888-8888" inputmode="tel">
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="city">Cidade</label>
-                                <input type="text" id="city" required placeholder="Ex: São Paulo">
-                            </div>
-                            <div class="form-group">
-                                <label for="state">Estado (UF)</label>
-                                <input type="text" id="state" maxlength="2" required placeholder="Ex: SP">
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="phone1">Telefone Principal (com DDD) *</label>
-                                <input type="tel" id="phone1" required placeholder="Ex: (11) 99999-9999">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone2">Telefone Secundário (opcional)</label>
-                                <input type="tel" id="phone2" placeholder="Ex: (11) 98888-8888">
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="email">E-mail *</label>
-                                <input type="email" id="email" required placeholder="Ex: maria.santos@email.com">
-                            </div>
-                            <div class="form-group">
-                                <label for="license">CNH (opcional)</label>
-                                <select id="license">
-                                    <option value="">Não possuo</option>
-                                    <option value="A">Categoria A (Moto)</option>
-                                    <option value="B">Categoria B (Carro)</option>
-                                    <option value="AB">Categoria AB (Carro e Moto)</option>
-                                    <option value="C">Categoria C (Caminhão)</option>
-                                    <option value="D">Categoria D (Ônibus)</option>
-                                    <option value="E">Categoria E (Articulados)</option>
-                                </select>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email">E-mail *</label>
+                                    <input type="email" id="email" required placeholder="Ex: maria.santos@email.com" inputmode="email" autocomplete="email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="license">CNH (opcional)</label>
+                                    <select id="license">
+                                        <option value="">Não possuo</option>
+                                        <option value="A">Categoria A (Moto)</option>
+                                        <option value="B">Categoria B (Carro)</option>
+                                        <option value="AB">Categoria AB (Carro e Moto)</option>
+                                        <option value="C">Categoria C (Caminhão)</option>
+                                        <option value="D">Categoria D (Ônibus)</option>
+                                        <option value="E">Categoria E (Articulados)</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
                     <!-- Seção 2: Objetivo e Síntese de Qualificações com IA -->
                     <div class="form-section-card" id="section-objective-synthesis">
-                        <div class="section-card-header">
-                            <div class="section-badge">2</div>
-                            <h2>Objetivo & Síntese Profissional</h2>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="objective">Área ou função de interesse (Objetivo)</label>
-                            <input type="text" id="objective" placeholder="Ex: Assistente Administrativo | Desenvolvedor Frontend">
-                        </div>
-                        
-                        <div class="form-group">
-                            <div class="label-with-ai-action">
-                                <label for="qualificationSummary">Síntese de Qualificações</label>
-                                <div class="ai-button-group">
-                                    <button type="button" id="btnOpenAiSynthesis" class="btn-ai-sparkle" title="A IA lê seus dados e gera 3 opções de síntese profissional">
-                                        ✨ Gerar Síntese com IA
-                                    </button>
-                                    <button type="button" id="generateSynthesis" class="btn-text-helper" title="Ver modelos prontos clássicos">
-                                        Ver Modelos Prontos
-                                    </button>
-                                </div>
+                        <div class="section-card-header section-accordion-trigger" data-target="body-objective-synthesis">
+                            <div class="section-header-title">
+                                <div class="section-badge">2</div>
+                                <h2>Objetivo & Síntese Profissional</h2>
                             </div>
-                            <textarea id="qualificationSummary" rows="4" placeholder="Breve resumo profissional destacando sua bagagem, principais competências e resultados..."></textarea>
+                            <span class="accordion-chevron">▾</span>
+                        </div>
+                        
+                        <div class="section-card-body" id="body-objective-synthesis">
+                            <div class="form-group">
+                                <label for="objective">Área ou função de interesse (Objetivo)</label>
+                                <input type="text" id="objective" placeholder="Ex: Assistente Administrativo | Desenvolvedor Frontend">
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="label-with-ai-action">
+                                    <label for="qualificationSummary">Síntese de Qualificações</label>
+                                    <div class="ai-button-group">
+                                        <button type="button" id="btnOpenAiSynthesis" class="btn-ai-sparkle" title="A IA lê seus dados e gera 3 opções de síntese profissional">
+                                            ✨ Gerar Síntese com IA
+                                        </button>
+                                        <button type="button" id="generateSynthesis" class="btn-text-helper" title="Ver modelos prontos clássicos">
+                                            Ver Modelos Prontos
+                                        </button>
+                                    </div>
+                                </div>
+                                <textarea id="qualificationSummary" rows="4" placeholder="Breve resumo profissional destacando sua bagagem, principais competências e resultados..."></textarea>
+                            </div>
                         </div>
                     </div>
                     
                     <!-- Seção 3: Educação / Formação Acadêmica -->
                     <div class="form-section-card" id="section-education">
-                        <div class="section-card-header">
-                            <div class="section-badge">3</div>
-                            <h2>Educação / Formação Acadêmica</h2>
+                        <div class="section-card-header section-accordion-trigger" data-target="body-education">
+                            <div class="section-header-title">
+                                <div class="section-badge">3</div>
+                                <h2>Educação / Formação Acadêmica</h2>
+                            </div>
+                            <span class="accordion-chevron">▾</span>
                         </div>
                         
-                        <div id="education-container">
-                            <div class="education-item">
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label>Grau de escolaridade</label>
-                                        <select class="education-level" required>
-                                            <option value="">Selecione</option>
-                                            <option value="Ensino Fundamental">Ensino Fundamental</option>
-                                            <option value="Ensino Médio">Ensino Médio</option>
-                                            <option value="Ensino Técnico">Ensino Técnico</option>
-                                            <option value="Graduação / Superior">Graduação / Superior</option>
-                                            <option value="Pós-graduação / Especialização">Pós-graduação / Especialização</option>
-                                            <option value="Mestrado">Mestrado</option>
-                                            <option value="Doutorado">Doutorado</option>
-                                        </select>
+                        <div class="section-card-body" id="body-education">
+                            <div id="education-container">
+                                <div class="education-item">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>Grau de escolaridade</label>
+                                            <select class="education-level" required>
+                                                <option value="">Selecione</option>
+                                                <option value="Ensino Fundamental">Ensino Fundamental</option>
+                                                <option value="Ensino Médio">Ensino Médio</option>
+                                                <option value="Ensino Técnico">Ensino Técnico</option>
+                                                <option value="Graduação / Superior">Graduação / Superior</option>
+                                                <option value="Pós-graduação / Especialização">Pós-graduação / Especialização</option>
+                                                <option value="Mestrado">Mestrado</option>
+                                                <option value="Doutorado">Doutorado</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Curso / Especialidade</label>
+                                            <input type="text" class="education-course" placeholder="Ex: Análise e Desenvolvimento de Sistemas">
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Curso / Especialidade</label>
-                                        <input type="text" class="education-course" placeholder="Ex: Análise e Desenvolvimento de Sistemas">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>Instituição</label>
+                                            <input type="text" class="institution" required placeholder="Ex: SENAC">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Status</label>
+                                            <select class="education-status" required>
+                                                <option value="">Selecione</option>
+                                                <option value="Concluído">Concluído</option>
+                                                <option value="Cursando">Cursando</option>
+                                                <option value="Interrompido">Interrompido</option>
+                                            </select>
+                                        </div>
                                     </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>Ano de conclusão/previsão</label>
+                                            <input type="number" class="education-year" min="1950" max="2050" required placeholder="Ex: 2025" inputmode="numeric">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Turno</label>
+                                            <select class="education-shift">
+                                                <option value="">Selecione</option>
+                                                <option value="Matutino">Matutino</option>
+                                                <option value="Vespertino">Vespertino</option>
+                                                <option value="Noturno">Noturno</option>
+                                                <option value="Integral">Integral</option>
+                                                <option value="EAD">EAD</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="remove-btn">Remover</button>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label>Instituição</label>
-                                        <input type="text" class="institution" required placeholder="Ex: SENAC">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Status</label>
-                                        <select class="education-status" required>
-                                            <option value="">Selecione</option>
-                                            <option value="Concluído">Concluído</option>
-                                            <option value="Cursando">Cursando</option>
-                                            <option value="Interrompido">Interrompido</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label>Ano de conclusão/previsão</label>
-                                        <input type="number" class="education-year" min="1950" max="2050" required placeholder="Ex: 2025">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Turno</label>
-                                        <select class="education-shift">
-                                            <option value="">Selecione</option>
-                                            <option value="Matutino">Matutino</option>
-                                            <option value="Vespertino">Vespertino</option>
-                                            <option value="Noturno">Noturno</option>
-                                            <option value="Integral">Integral</option>
-                                            <option value="EAD">EAD</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <button type="button" class="remove-btn">Remover</button>
                             </div>
+                            <button type="button" id="addEducation" class="btn-add-section">+ Adicionar Outra Formação</button>
                         </div>
-                        <button type="button" id="addEducation" class="btn-add-section">+ Adicionar Outra Formação</button>
                     </div>
 
                     <!-- Seção 4: Experiências Profissionais -->
                     <div class="form-section-card" id="section-experience">
-                        <div class="section-card-header">
-                            <div class="section-badge">4</div>
-                            <h2>Experiências Profissionais / Acadêmicas</h2>
+                        <div class="section-card-header section-accordion-trigger" data-target="body-experience">
+                            <div class="section-header-title">
+                                <div class="section-badge">4</div>
+                                <h2>Experiências Profissionais / Acadêmicas</h2>
+                            </div>
+                            <span class="accordion-chevron">▾</span>
                         </div>
                         
-                        <div id="experience-container">
-                            <div class="experience-item">
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label>Cargo</label>
-                                        <input type="text" class="position" required placeholder="Ex: Assistente de TI">
+                        <div class="section-card-body" id="body-experience">
+                            <div id="experience-container">
+                                <div class="experience-item">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>Cargo</label>
+                                            <input type="text" class="position" required placeholder="Ex: Assistente de TI">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Empresa</label>
+                                            <input type="text" class="company" required placeholder="Ex: Tech Solutions Ltda">
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Empresa</label>
-                                        <input type="text" class="company" required placeholder="Ex: Tech Solutions Ltda">
+                                        <label>Período</label>
+                                        <input type="text" class="job-period" placeholder="Ex: Março de 2022 até o momento ou 2021 - 2023">
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label>Período</label>
-                                    <input type="text" class="job-period" placeholder="Ex: Março de 2022 até o momento ou 2021 - 2023">
-                                </div>
-                                <div class="form-group">
-                                    <div class="label-with-ai-action">
-                                        <label>Descrição das Atividades / Conquistas</label>
-                                        <button type="button" class="btn-ai-sparkle btn-improve-exp" title="Reescreve com verbos de ação e metodologia STAR">
-                                            ⚡ Melhorar texto com IA (STAR)
-                                        </button>
+                                    <div class="form-group">
+                                        <div class="label-with-ai-action">
+                                            <label>Descrição das Atividades / Conquistas</label>
+                                            <button type="button" class="btn-ai-sparkle btn-improve-exp" title="Reescreve com verbos de ação e metodologia STAR">
+                                                ⚡ Melhorar texto com IA (STAR)
+                                            </button>
+                                        </div>
+                                        <textarea class="job-description" rows="3" placeholder="Descreva suas principais responsabilidades, projetos entregues e resultados obtidos..."></textarea>
                                     </div>
-                                    <textarea class="job-description" rows="3" placeholder="Descreva suas principais responsabilidades, projetos entregues e resultados obtidos..."></textarea>
+                                    <button type="button" class="remove-btn">Remover</button>
                                 </div>
-                                <button type="button" class="remove-btn">Remover</button>
                             </div>
+                            <button type="button" id="addExperience" class="btn-add-section">+ Adicionar Outra Experiência</button>
                         </div>
-                        <button type="button" id="addExperience" class="btn-add-section">+ Adicionar Outra Experiência</button>
                     </div>
 
                     <!-- Seção 5: Cursos Complementares -->
                     <div class="form-section-card" id="section-courses">
-                        <div class="section-card-header">
-                            <div class="section-badge">5</div>
-                            <h2>Cursos Complementares & Certificações</h2>
+                        <div class="section-card-header section-accordion-trigger" data-target="body-courses">
+                            <div class="section-header-title">
+                                <div class="section-badge">5</div>
+                                <h2>Cursos Complementares & Certificações</h2>
+                            </div>
+                            <span class="accordion-chevron">▾</span>
                         </div>
                         
-                        <div id="course-container">
-                            <div class="course-item">
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label>Nome do Curso / Certificação</label>
-                                        <input type="text" class="course-name" required placeholder="Ex: Excel Avançado para Negócios">
+                        <div class="section-card-body" id="body-courses">
+                            <div id="course-container">
+                                <div class="course-item">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>Nome do Curso / Certificação</label>
+                                            <input type="text" class="course-name" required placeholder="Ex: Excel Avançado para Negócios">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Instituição</label>
+                                            <input type="text" class="course-institution" required placeholder="Ex: Fundação Bradesco / Udemy">
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Instituição</label>
-                                        <input type="text" class="course-institution" required placeholder="Ex: Fundação Bradesco / Udemy">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label>Carga horária</label>
+                                            <input type="text" class="course-hours" placeholder="Ex: 40h">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Ano</label>
+                                            <input type="number" class="course-year" min="1950" max="2050" placeholder="Ex: 2024" inputmode="numeric">
+                                        </div>
                                     </div>
+                                    <button type="button" class="remove-btn">Remover</button>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label>Carga horária</label>
-                                        <input type="text" class="course-hours" placeholder="Ex: 40h">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Ano</label>
-                                        <input type="number" class="course-year" min="1950" max="2050" placeholder="Ex: 2024">
-                                    </div>
-                                </div>
-                                <button type="button" class="remove-btn">Remover</button>
                             </div>
+                            <button type="button" id="addCourse" class="btn-add-section">+ Adicionar Outro Curso</button>
                         </div>
-                        <button type="button" id="addCourse" class="btn-add-section">+ Adicionar Outro Curso</button>
                     </div>
 
                     <!-- Seção 6: Habilidades Técnicas e Comportamentais -->
                     <div class="form-section-card" id="section-skills">
-                        <div class="section-card-header-with-action">
+                        <div class="section-card-header-with-action section-accordion-trigger" data-target="body-skills">
                             <div class="section-card-header">
                                 <div class="section-badge">6</div>
                                 <div>
@@ -362,127 +387,132 @@
                                     <p class="section-subtext">Selecione suas competências técnicas e comportamentais</p>
                                 </div>
                             </div>
-                            <button type="button" id="btnExplainSkills" class="btn-skills-explainer" title="Clique para entender a diferença entre Hard e Soft Skills">
-                                💡 <span>O que são Hard & Soft Skills?</span>
-                            </button>
-                        </div>
-
-                        <!-- Painel Inteligente de Sugestão de Skills com IA -->
-                        <div id="aiSkillSuggestionsPanel" class="ai-skills-panel">
-                            <div class="ai-skills-panel-header">
-                                <div>
-                                    <h4>✨ Sugestor Dinâmico de Habilidades (IA)</h4>
-                                    <p id="aiSkillsMarketSummary" class="ai-skills-market-summary">Sugestões de competências mais valorizadas no mercado para o seu objetivo profissional.</p>
-                                </div>
-                                <button type="button" id="btnRefreshSkills" class="btn-ai-small">💡 Sugerir para o cargo</button>
-                            </div>
-                            <div id="aiSkillsLoading" class="ai-loading-state" style="display: none; padding: 12px 0;">
-                                <div class="ai-spinner" style="width: 24px; height: 24px; border-width: 3px;"></div>
-                                <small>Mapeando habilidades em alta no mercado corporativo...</small>
-                            </div>
-                            <div id="aiSkillsContent" style="display: none;">
-                                <div class="suggested-chips-group">
-                                    <span class="chips-group-title">Hard Skills Recomendadas:</span>
-                                    <div id="suggestedHardSkillsList" class="chips-container"></div>
-                                </div>
-                                <div class="suggested-chips-group">
-                                    <span class="chips-group-title">Soft Skills Recomendadas:</span>
-                                    <div id="suggestedSoftSkillsList" class="chips-container"></div>
-                                </div>
-                                <div class="chips-actions">
-                                    <button type="button" id="btnSelectAllSuggestedSkills" class="btn-ai-small">✓ Adicionar Todas as Sugeridas</button>
-                                </div>
+                            <div class="section-header-right">
+                                <button type="button" id="btnExplainSkills" class="btn-skills-explainer" title="Clique para entender a diferença entre Hard e Soft Skills" onclick="event.stopPropagation();">
+                                    💡 <span>O que são?</span>
+                                </button>
+                                <span class="accordion-chevron">▾</span>
                             </div>
                         </div>
 
-                        <!-- Filtros por Categoria de Mercado -->
-                        <div class="skills-filter-tabs">
-                            <button type="button" class="tab-chip active" data-category="all">⚡ Todas as Áreas</button>
-                            <button type="button" class="tab-chip" data-category="tech">💻 TI & Desenvolvimento</button>
-                            <button type="button" class="tab-chip" data-category="business">📊 Gestão & Negócios</button>
-                            <button type="button" class="tab-chip" data-category="design">🎨 Design & Marketing</button>
-                            <button type="button" class="tab-chip" data-category="sales">🤝 Vendas & Atendimento</button>
-                            <button type="button" class="tab-chip" data-category="admin">⚙️ Adm & Operações</button>
-                        </div>
-
-                        <div class="skills-columns-grid">
-                            <!-- Coluna de Hard Skills -->
-                            <div class="skills-column">
-                                <div class="skills-col-header">
-                                    <h3>Hard Skills (Técnicas)</h3>
-                                    <span class="skills-badge-count" id="hardSkillsCount">0 selecionadas</span>
-                                </div>
-                                
-                                <div class="skills-selection-grid" id="hardSkillsGrid">
-                                    <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="React / Frontend"> React / Frontend</label>
-                                    <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="Node.js / Backend"> Node.js / Backend</label>
-                                    <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="Python"> Python</label>
-                                    <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="TypeScript / JavaScript"> TypeScript / JavaScript</label>
-                                    <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="SQL e Banco de Dados"> SQL e Banco de Dados</label>
-                                    <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="Git e GitHub"> Git e GitHub</label>
-                                    <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="Docker & Nuvem"> Docker & Nuvem</label>
-                                    <label class="skill-checkbox-item" data-cat="business"><input type="checkbox" class="hard-skill" value="Pacote Office / Google Workspace"> Pacote Office / Google Workspace</label>
-                                    <label class="skill-checkbox-item" data-cat="business"><input type="checkbox" class="hard-skill" value="Excel Avançado & Fórmulas"> Excel Avançado & Fórmulas</label>
-                                    <label class="skill-checkbox-item" data-cat="business"><input type="checkbox" class="hard-skill" value="Power BI & Dashboards"> Power BI & Dashboards</label>
-                                    <label class="skill-checkbox-item" data-cat="business"><input type="checkbox" class="hard-skill" value="Metodologias Ágeis (Scrum/Kanban)"> Metodologias Ágeis (Scrum/Kanban)</label>
-                                    <label class="skill-checkbox-item" data-cat="business"><input type="checkbox" class="hard-skill" value="Gestão de Projetos"> Gestão de Projetos</label>
-                                    <label class="skill-checkbox-item" data-cat="admin"><input type="checkbox" class="hard-skill" value="Sistemas ERP (SAP/Totvs/Omie)"> Sistemas ERP (SAP/Totvs/Omie)</label>
-                                    <label class="skill-checkbox-item" data-cat="admin"><input type="checkbox" class="hard-skill" value="Rotinas Administrativas e Arquivos"> Rotinas Administrativas</label>
-                                    <label class="skill-checkbox-item" data-cat="admin"><input type="checkbox" class="hard-skill" value="Fluxo de Caixa & Conciliação"> Fluxo de Caixa & Conciliação</label>
-                                    <label class="skill-checkbox-item" data-cat="design"><input type="checkbox" class="hard-skill" value="Figma / UI & UX Design"> Figma / UI & UX Design</label>
-                                    <label class="skill-checkbox-item" data-cat="design"><input type="checkbox" class="hard-skill" value="Adobe Photoshop / Illustrator"> Adobe Photoshop / Illustrator</label>
-                                    <label class="skill-checkbox-item" data-cat="design"><input type="checkbox" class="hard-skill" value="Marketing Digital & Redes Sociais"> Marketing Digital & Redes Sociais</label>
-                                    <label class="skill-checkbox-item" data-cat="sales"><input type="checkbox" class="hard-skill" value="Técnicas de Vendas & Negociação"> Técnicas de Vendas & Negociação</label>
-                                    <label class="skill-checkbox-item" data-cat="sales"><input type="checkbox" class="hard-skill" value="Sistemas de CRM (Salesforce/Hubspot)"> Sistemas de CRM</label>
-                                    <label class="skill-checkbox-item" data-cat="sales"><input type="checkbox" class="hard-skill" value="Atendimento ao Cliente (SAC/Suporte)"> Atendimento ao Cliente (SAC)</label>
-                                </div>
-                                
-                                <!-- Adicionar Hard Skill Personalizada -->
-                                <div class="custom-skills-adder-block">
-                                    <label for="customHardSkillInput">Adicionar Hard Skill Personalizada:</label>
-                                    <div class="custom-skill-input-row">
-                                        <input type="text" id="customHardSkillInput" placeholder="Ex: Next.js, SAP, AutoCAD...">
-                                        <button type="button" id="btnAddCustomHardSkill" class="btn-add-chip-skill">+ Adicionar</button>
+                        <div class="section-card-body" id="body-skills">
+                            <!-- Painel Inteligente de Sugestão de Skills com IA -->
+                            <div id="aiSkillSuggestionsPanel" class="ai-skills-panel">
+                                <div class="ai-skills-panel-header">
+                                    <div>
+                                        <h4>✨ Sugestor Dinâmico de Habilidades (IA)</h4>
+                                        <p id="aiSkillsMarketSummary" class="ai-skills-market-summary">Sugestões de competências mais valorizadas no mercado para o seu objetivo profissional.</p>
                                     </div>
-                                    <div id="customHardSkillsChipsContainer" class="custom-chips-cloud"></div>
-                                    <input type="hidden" id="otherHardSkills">
+                                    <button type="button" id="btnRefreshSkills" class="btn-ai-small">💡 Sugerir para o cargo</button>
+                                </div>
+                                <div id="aiSkillsLoading" class="ai-loading-state" style="display: none; padding: 12px 0;">
+                                    <div class="ai-spinner" style="width: 24px; height: 24px; border-width: 3px;"></div>
+                                    <small>Mapeando habilidades em alta no mercado corporativo...</small>
+                                </div>
+                                <div id="aiSkillsContent" style="display: none;">
+                                    <div class="suggested-chips-group">
+                                        <span class="chips-group-title">Hard Skills Recomendadas:</span>
+                                        <div id="suggestedHardSkillsList" class="chips-container"></div>
+                                    </div>
+                                    <div class="suggested-chips-group">
+                                        <span class="chips-group-title">Soft Skills Recomendadas:</span>
+                                        <div id="suggestedSoftSkillsList" class="chips-container"></div>
+                                    </div>
+                                    <div class="chips-actions">
+                                        <button type="button" id="btnSelectAllSuggestedSkills" class="btn-ai-small">✓ Adicionar Todas as Sugeridas</button>
+                                    </div>
                                 </div>
                             </div>
-                            
-                            <!-- Coluna de Soft Skills -->
-                            <div class="skills-column">
-                                <div class="skills-col-header">
-                                    <h3>Soft Skills (Comportamentais)</h3>
-                                    <span class="skills-badge-count" id="softSkillsCount">0 selecionadas</span>
-                                </div>
-                                
-                                <div class="skills-selection-grid" id="softSkillsGrid">
-                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Comunicação Clara e Assertiva"> Comunicação Clara e Assertiva</label>
-                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Trabalho em Equipe e Cooperação"> Trabalho em Equipe</label>
-                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Inteligência Emocional"> Inteligência Emocional</label>
-                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Resolução de Problemas Complexos"> Resolução de Problemas</label>
-                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Pensamento Crítico e Analítico"> Pensamento Crítico</label>
-                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Adaptabilidade e Flexibilidade"> Adaptabilidade e Flexibilidade</label>
-                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Gestão do Tempo e Produtividade"> Gestão do Tempo</label>
-                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Proatividade e Autonomia"> Proatividade e Autonomia</label>
-                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Liderança e Motivação de Pessoas"> Liderança e Motivação</label>
-                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Negociação e Persuasão"> Negociação e Persuasão</label>
-                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Foco em Resultados e Metas"> Foco em Resultados</label>
-                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Criatividade e Inovação"> Criatividade e Inovação</label>
-                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Empatia e Escuta Ativa"> Empatia e Escuta Ativa</label>
-                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Resiliência sob Pressão"> Resiliência sob Pressão</label>
-                                    <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Ética e Comprometimento"> Ética e Comprometimento</label>
-                                </div>
-                                
-                                <!-- Adicionar Soft Skill Personalizada -->
-                                <div class="custom-skills-adder-block">
-                                    <label for="customSoftSkillInput">Adicionar Soft Skill Personalizada:</label>
-                                    <div class="custom-skill-input-row">
-                                        <input type="text" id="customSoftSkillInput" placeholder="Ex: Mediação de Conflitos, Storytelling...">
-                                        <button type="button" id="btnAddCustomSoftSkill" class="btn-add-chip-skill">+ Adicionar</button>
+
+                            <!-- Filtros por Categoria de Mercado -->
+                            <div class="skills-filter-tabs">
+                                <button type="button" class="tab-chip active" data-category="all">⚡ Todas as Áreas</button>
+                                <button type="button" class="tab-chip" data-category="tech">💻 TI & Desenvolvimento</button>
+                                <button type="button" class="tab-chip" data-category="business">📊 Gestão & Negócios</button>
+                                <button type="button" class="tab-chip" data-category="design">🎨 Design & Marketing</button>
+                                <button type="button" class="tab-chip" data-category="sales">🤝 Vendas & Atendimento</button>
+                                <button type="button" class="tab-chip" data-category="admin">⚙️ Adm & Operações</button>
+                            </div>
+
+                            <div class="skills-columns-grid">
+                                <!-- Coluna de Hard Skills -->
+                                <div class="skills-column">
+                                    <div class="skills-col-header">
+                                        <h3>Hard Skills (Técnicas)</h3>
+                                        <span class="skills-badge-count" id="hardSkillsCount">0 selecionadas</span>
                                     </div>
-                                    <div id="customSoftSkillsChipsContainer" class="custom-chips-cloud"></div>
-                                    <input type="hidden" id="otherSoftSkills">
+                                    
+                                    <div class="skills-selection-grid" id="hardSkillsGrid">
+                                        <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="React / Frontend"> React / Frontend</label>
+                                        <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="Node.js / Backend"> Node.js / Backend</label>
+                                        <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="Python"> Python</label>
+                                        <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="TypeScript / JavaScript"> TypeScript / JavaScript</label>
+                                        <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="SQL e Banco de Dados"> SQL e Banco de Dados</label>
+                                        <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="Git e GitHub"> Git e GitHub</label>
+                                        <label class="skill-checkbox-item" data-cat="tech"><input type="checkbox" class="hard-skill" value="Docker & Nuvem"> Docker & Nuvem</label>
+                                        <label class="skill-checkbox-item" data-cat="business"><input type="checkbox" class="hard-skill" value="Pacote Office / Google Workspace"> Pacote Office / Google Workspace</label>
+                                        <label class="skill-checkbox-item" data-cat="business"><input type="checkbox" class="hard-skill" value="Excel Avançado & Fórmulas"> Excel Avançado & Fórmulas</label>
+                                        <label class="skill-checkbox-item" data-cat="business"><input type="checkbox" class="hard-skill" value="Power BI & Dashboards"> Power BI & Dashboards</label>
+                                        <label class="skill-checkbox-item" data-cat="business"><input type="checkbox" class="hard-skill" value="Metodologias Ágeis (Scrum/Kanban)"> Metodologias Ágeis (Scrum/Kanban)</label>
+                                        <label class="skill-checkbox-item" data-cat="business"><input type="checkbox" class="hard-skill" value="Gestão de Projetos"> Gestão de Projetos</label>
+                                        <label class="skill-checkbox-item" data-cat="admin"><input type="checkbox" class="hard-skill" value="Sistemas ERP (SAP/Totvs/Omie)"> Sistemas ERP (SAP/Totvs/Omie)</label>
+                                        <label class="skill-checkbox-item" data-cat="admin"><input type="checkbox" class="hard-skill" value="Rotinas Administrativas e Arquivos"> Rotinas Administrativas</label>
+                                        <label class="skill-checkbox-item" data-cat="admin"><input type="checkbox" class="hard-skill" value="Fluxo de Caixa & Conciliação"> Fluxo de Caixa & Conciliação</label>
+                                        <label class="skill-checkbox-item" data-cat="design"><input type="checkbox" class="hard-skill" value="Figma / UI & UX Design"> Figma / UI & UX Design</label>
+                                        <label class="skill-checkbox-item" data-cat="design"><input type="checkbox" class="hard-skill" value="Adobe Photoshop / Illustrator"> Adobe Photoshop / Illustrator</label>
+                                        <label class="skill-checkbox-item" data-cat="design"><input type="checkbox" class="hard-skill" value="Marketing Digital & Redes Sociais"> Marketing Digital & Redes Sociais</label>
+                                        <label class="skill-checkbox-item" data-cat="sales"><input type="checkbox" class="hard-skill" value="Técnicas de Vendas & Negociação"> Técnicas de Vendas & Negociação</label>
+                                        <label class="skill-checkbox-item" data-cat="sales"><input type="checkbox" class="hard-skill" value="Sistemas de CRM (Salesforce/Hubspot)"> Sistemas de CRM</label>
+                                        <label class="skill-checkbox-item" data-cat="sales"><input type="checkbox" class="hard-skill" value="Atendimento ao Cliente (SAC/Suporte)"> Atendimento ao Cliente (SAC)</label>
+                                    </div>
+                                    
+                                    <!-- Adicionar Hard Skill Personalizada -->
+                                    <div class="custom-skills-adder-block">
+                                        <label for="customHardSkillInput">Adicionar Hard Skill Personalizada:</label>
+                                        <div class="custom-skill-input-row">
+                                            <input type="text" id="customHardSkillInput" placeholder="Ex: Next.js, SAP, AutoCAD...">
+                                            <button type="button" id="btnAddCustomHardSkill" class="btn-add-chip-skill">+ Adicionar</button>
+                                        </div>
+                                        <div id="customHardSkillsChipsContainer" class="custom-chips-cloud"></div>
+                                        <input type="hidden" id="otherHardSkills">
+                                    </div>
+                                </div>
+                                
+                                <!-- Coluna de Soft Skills -->
+                                <div class="skills-column">
+                                    <div class="skills-col-header">
+                                        <h3>Soft Skills (Comportamentais)</h3>
+                                        <span class="skills-badge-count" id="softSkillsCount">0 selecionadas</span>
+                                    </div>
+                                    
+                                    <div class="skills-selection-grid" id="softSkillsGrid">
+                                        <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Comunicação Clara e Assertiva"> Comunicação Clara e Assertiva</label>
+                                        <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Trabalho em Equipe e Cooperação"> Trabalho em Equipe</label>
+                                        <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Inteligência Emocional"> Inteligência Emocional</label>
+                                        <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Resolução de Problemas Complexos"> Resolução de Problemas</label>
+                                        <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Pensamento Crítico e Analítico"> Pensamento Crítico</label>
+                                        <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Adaptabilidade e Flexibilidade"> Adaptabilidade e Flexibilidade</label>
+                                        <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Gestão do Tempo e Produtividade"> Gestão do Tempo</label>
+                                        <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Proatividade e Autonomia"> Proatividade e Autonomia</label>
+                                        <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Liderança e Motivação de Pessoas"> Liderança e Motivação</label>
+                                        <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Negociação e Persuasão"> Negociação e Persuasão</label>
+                                        <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Foco em Resultados e Metas"> Foco em Resultados</label>
+                                        <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Criatividade e Inovação"> Criatividade e Inovação</label>
+                                        <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Empatia e Escuta Ativa"> Empatia e Escuta Ativa</label>
+                                        <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Resiliência sob Pressão"> Resiliência sob Pressão</label>
+                                        <label class="skill-checkbox-item" data-cat="all"><input type="checkbox" class="soft-skill" value="Ética e Comprometimento"> Ética e Comprometimento</label>
+                                    </div>
+                                    
+                                    <!-- Adicionar Soft Skill Personalizada -->
+                                    <div class="custom-skills-adder-block">
+                                        <label for="customSoftSkillInput">Adicionar Soft Skill Personalizada:</label>
+                                        <div class="custom-skill-input-row">
+                                            <input type="text" id="customSoftSkillInput" placeholder="Ex: Mediação de Conflitos, Storytelling...">
+                                            <button type="button" id="btnAddCustomSoftSkill" class="btn-add-chip-skill">+ Adicionar</button>
+                                        </div>
+                                        <div id="customSoftSkillsChipsContainer" class="custom-chips-cloud"></div>
+                                        <input type="hidden" id="otherSoftSkills">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -490,14 +520,19 @@
                     
                     <!-- Seção 7: Informações Complementares -->
                     <div class="form-section-card" id="section-additional">
-                        <div class="section-card-header">
-                            <div class="section-badge">7</div>
-                            <h2>Informações Complementares</h2>
+                        <div class="section-card-header section-accordion-trigger" data-target="body-additional">
+                            <div class="section-header-title">
+                                <div class="section-badge">7</div>
+                                <h2>Informações Complementares</h2>
+                            </div>
+                            <span class="accordion-chevron">▾</span>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="additionalInfo">Idiomas, disponibilidade de horários/viagens, links (GitHub / Portfólio / LinkedIn):</label>
-                            <textarea id="additionalInfo" rows="3" placeholder="Ex: Inglês Intermediário; Disponibilidade para início imediato; Portfólio: github.com/meuperfil"></textarea>
+                        <div class="section-card-body" id="body-additional">
+                            <div class="form-group">
+                                <label for="additionalInfo">Idiomas, disponibilidade de horários/viagens, links (GitHub / Portfólio / LinkedIn):</label>
+                                <textarea id="additionalInfo" rows="3" placeholder="Ex: Inglês Intermediário; Disponibilidade para início imediato; Portfólio: github.com/meuperfil"></textarea>
+                            </div>
                         </div>
                     </div>
                     
@@ -546,6 +581,22 @@
                             <!-- O currículo gerado em tempo real será renderizado aqui -->
                         </div>
                     </div>
+
+                    <!-- Barra de Ações Rápidas Mobile Flutuante / Sticky Bottom -->
+                    <div class="mobile-sticky-actions-bar only-mobile">
+                        <button type="button" class="btn-mobile-quick btn-mobile-quick-pdf" onclick="window.print()">
+                            <span>🖨️</span>
+                            <span>Salvar PDF</span>
+                        </button>
+                        <button type="button" class="btn-mobile-quick btn-mobile-quick-word" id="btnMobileWordQuick">
+                            <span>📄</span>
+                            <span>Word</span>
+                        </button>
+                        <button type="button" class="btn-mobile-quick btn-mobile-quick-translate" id="btnMobileTranslateQuick">
+                            <span>🌐</span>
+                            <span>Traduzir</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </main>
@@ -557,6 +608,7 @@
         <!-- Modal 1: Síntese de Qualificações com IA (3 Opções) -->
         <div id="aiSynthesisModal" class="modal">
             <div class="modal-content modal-large">
+                <div class="modal-drag-handle"></div>
                 <span class="close close-ai-synthesis">&times;</span>
                 <div class="modal-header-ai">
                     <span class="ai-sparkle">✨</span>
@@ -598,6 +650,7 @@
         <!-- Modal 2: Melhoria de Descrição de Experiência com IA (STAR) -->
         <div id="aiExperienceModal" class="modal">
             <div class="modal-content">
+                <div class="modal-drag-handle"></div>
                 <span class="close close-ai-exp">&times;</span>
                 <div class="modal-header-ai">
                     <span class="ai-sparkle">✨</span>
@@ -632,6 +685,7 @@
         <!-- Modal 3: Revisão Ortográfica e de Tom Corporativo -->
         <div id="aiReviewModal" class="modal">
             <div class="modal-content modal-large">
+                <div class="modal-drag-handle"></div>
                 <span class="close close-ai-review">&times;</span>
                 <div class="modal-header-ai">
                     <span class="ai-sparkle">✨</span>
@@ -658,6 +712,7 @@
         <!-- Modal 4: Configuração da IA (Gemini API Key) -->
         <div id="aiSettingsModal" class="modal">
             <div class="modal-content">
+                <div class="modal-drag-handle"></div>
                 <span class="close close-ai-settings">&times;</span>
                 <div class="modal-header-ai">
                     <span class="ai-sparkle">⚙️</span>
@@ -686,6 +741,7 @@
         <!-- Modal 5: Importação Inteligente de Currículo (Resume Parsing) -->
         <div id="aiImportModal" class="modal">
             <div class="modal-content modal-large">
+                <div class="modal-drag-handle"></div>
                 <span class="close close-ai-import">&times;</span>
                 <div class="modal-header-ai">
                     <span class="ai-sparkle">📥</span>
@@ -738,6 +794,7 @@
         <!-- Modal 6: Termômetro de Vaga (ATS Compatibility & Keyword Matching) -->
         <div id="aiAtsModal" class="modal">
             <div class="modal-content modal-large">
+                <div class="modal-drag-handle"></div>
                 <span class="close close-ai-ats">&times;</span>
                 <div class="modal-header-ai">
                     <span class="ai-sparkle">🌡️</span>
@@ -821,6 +878,7 @@
         <!-- Modal 7: Pop-up Explicativo de Hard Skills vs Soft Skills -->
         <div id="skillsExplainerModal" class="modal">
             <div class="modal-content modal-large">
+                <div class="modal-drag-handle"></div>
                 <span class="close close-skills-explainer">&times;</span>
                 <div class="modal-header-ai">
                     <span class="ai-sparkle">💡</span>
@@ -896,6 +954,7 @@
         <!-- Modal 8: Tradução em Um Clique com IA (Inglês & Espanhol) -->
         <div id="aiTranslateModal" class="modal">
             <div class="modal-content modal-large">
+                <div class="modal-drag-handle"></div>
                 <span class="close close-ai-translate">&times;</span>
                 <div class="modal-header-ai">
                     <span class="ai-sparkle">🌐</span>
@@ -956,6 +1015,7 @@
         <!-- Modal 9: Gerador de Carta de Apresentação (Cover Letter) com IA -->
         <div id="aiCoverLetterModal" class="modal">
             <div class="modal-content modal-large">
+                <div class="modal-drag-handle"></div>
                 <span class="close close-ai-cover">&times;</span>
                 <div class="modal-header-ai">
                     <span class="ai-sparkle">✉️</span>
@@ -1014,6 +1074,7 @@
         <!-- Modal 10: Exemplos Clássicos de Síntese -->
         <div id="synthesisModal" class="modal">
             <div class="modal-content modal-large">
+                <div class="modal-drag-handle"></div>
                 <span class="close close-synthesis-classic">&times;</span>
                 <div class="modal-header-ai">
                     <span class="ai-sparkle">📋</span>

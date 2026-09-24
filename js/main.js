@@ -25,52 +25,44 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
- * Exibe uma notificação temporária
+ * Exibe uma notificação temporária no topo (toast)
  * @param {string} message - Mensagem a ser exibida
  * @param {string} type - Tipo de notificação (success, error, info)
  */
 function showNotification(message, type = 'success') {
-    // Criar elemento de notificação
+    // Remover notificações anteriores se existirem
+    const existingNotifications = document.querySelectorAll('.notification');
+    existingNotifications.forEach(n => n.remove());
+
     const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.textContent = message;
-    notification.style.position = 'fixed';
-    notification.style.bottom = '20px';
-    notification.style.right = '20px';
-    notification.style.padding = '10px 20px';
-    notification.style.borderRadius = '4px';
-    notification.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
-    notification.style.zIndex = '1000';
-    notification.style.transition = 'opacity 0.5s';
+    notification.className = `notification notification-${type}`;
     
-    // Definir cor com base no tipo
-    switch (type) {
-        case 'success':
-            notification.style.backgroundColor = '#2ecc71';
-            notification.style.color = 'white';
-            break;
-        case 'error':
-            notification.style.backgroundColor = '#e74c3c';
-            notification.style.color = 'white';
-            break;
-        case 'info':
-            notification.style.backgroundColor = '#3498db';
-            notification.style.color = 'white';
-            break;
-        default:
-            notification.style.backgroundColor = '#2ecc71';
-            notification.style.color = 'white';
+    let icon = '✓';
+    let bgColor = '#10b981';
+    if (type === 'error') {
+        icon = '⚠️';
+        bgColor = '#ef4444';
+    } else if (type === 'info') {
+        icon = 'ℹ️';
+        bgColor = '#155491';
     }
-    
-    // Adicionar ao corpo do documento
+
+    notification.innerHTML = `<span style="font-size: 15px;">${icon}</span> <span>${message}</span>`;
+    notification.style.backgroundColor = bgColor;
+    notification.style.color = '#ffffff';
+
     document.body.appendChild(notification);
     
-    // Remover após 3 segundos
+    // Remover suavemente após 3 segundos
     setTimeout(() => {
         notification.style.opacity = '0';
+        notification.style.transform = 'translate(-50%, -20px)';
+        notification.style.transition = 'all 0.3s ease';
         setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 500);
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
     }, 3000);
 }
 
