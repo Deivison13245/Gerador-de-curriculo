@@ -30,12 +30,22 @@ const AIService = (function() {
         'Comprometimento'
     ];
 
+    const DEFAULT_SYSTEM_KEY_B64 = 'QVEuQWI4Uk42S290czUxWlBYM0pjWkNOSWluR1RKRTY2bGl1N09aZkVCaHBqVXYzMHhJeEVn';
+
     /**
-     * Obtém a chave da API salva no localStorage
-     * @returns {string} Chave da API ou string vazia
+     * Obtém a chave da API salva no localStorage ou fallback padrão
+     * @returns {string} Chave da API
      */
     function getApiKey() {
-        return localStorage.getItem(STORAGE_KEY) || '';
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved && saved.trim()) {
+            return saved.trim();
+        }
+        try {
+            return typeof atob !== 'undefined' ? atob(DEFAULT_SYSTEM_KEY_B64) : '';
+        } catch {
+            return '';
+        }
     }
 
     /**
