@@ -582,6 +582,8 @@ Retorne ESTRITAMENTE um objeto JSON válido.`;
 
         // Limpeza de rodapés de impressão e artefatos de navegador
         const cleanText = text
+            .replace(/Documento gerado e formatado pelo Curr[íi]culo Express[^\n]*/gi, '')
+            .replace(/Curr[íi]culo Express(?:\s*-\s*Senac[^\n]*)?/gi, '')
             .replace(/\d{2}\/\d{2}\/\d{4},\s*\d{2}:\d{2}\s*Curr[íi]culo\s+Express[^\n]*/gi, '')
             .replace(/https?:\/\/[^\s]+/gi, '')
             .replace(/127\.0\.0\.1:\d+[^\n]*/g, '')
