@@ -421,10 +421,18 @@ const ExportUtils = (function() {
     }
 
     /**
-     * Imprime o currículo usando a função nativa do navegador
+     * Imprime o currículo usando a função nativa do navegador com o nome da pessoa no arquivo
      */
     function printResume() {
+        const nameInput = document.getElementById('name');
+        const originalTitle = document.title;
+        if (nameInput && nameInput.value.trim()) {
+            document.title = nameInput.value.trim();
+        }
         window.print();
+        setTimeout(() => {
+            document.title = originalTitle;
+        }, 1000);
     }
 
     // API pública
